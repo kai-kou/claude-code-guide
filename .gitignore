@@ -1,0 +1,32 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE & Editor
+.vscode/settings.json
+.vscode/launch.json
+.idea/
+*.swp
+*.swo
+*~
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Credentials & Secrets
+credentials.json
+secrets.json
+*.pem
+*.key
+
+# Claude Code local settings
+.claude/settings.local.json
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.temp

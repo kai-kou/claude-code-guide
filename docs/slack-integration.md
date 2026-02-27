@@ -1,0 +1,701 @@
+# Claude Code Hooks活用ガイド: Slack連携・通知システム
+
+**最終更新日**: 2026-02-27
+**対象読者**: Claude Code初心者〜中級者
+
+---
+
+## はじめに
+
+Claude Codeの**Hooks（フック）**機能は、特定のイベントに応じてスクリプトを自動実行するイベント駆動型の自動化基盤です。本ドキュメントでは、Hooksの基本概念から実践的なSlack連携、自動チェック、コンテキスト再注入まで、実例とともに解説します。
+
+### Hooksでできること
+
+- タスク完了時にSlackへ自動投稿し、リアクションベースで次の指示を受け取る
+- ファイル編集後に構文チェックを自動実行してエラーを早期発見
+- git push前に未コミット変更や高リスクファイルをチェック
+- コンテキスト圧縮後に重要情報を自動再注入
+- 機密ファイルへのアクセスを自動ブロック
+
+Hooksを活用することで、手作業を減らし、ミスを防ぎ、リモートでの運用も可能になります。
+
+---
+
+## 1. Hooksの基本概念
+
+### 1-1. イベント駆動モデル
+
+Hooksは、Claude Codeの実行ライフサイクル中に発生する**イベント**に応じてスクリプトを実行します。
+
+```
+UserPromptSubmit → PreToolUse → [Tool実行] → PostToolUse → Stop → Notification
+```
+
+各イベントでカスタムスクリプトを設定できます。
+
+### 1-2. settings.jsonでの設定
+
+Hooksは `~/.claude/settings.json` または `.claude/settings.json` で定義します。
+
+```json
+{
+  "hooks": {
+    "Stop": {
+      "type": "command",
+      "command": "bash ~/.claude/hooks/slack-feedback.sh"
+    },
+    "PostToolUse": {
+      "type": "command",
+      "command": "bash ~/.claude/hooks/post-edit-lint.sh",
+      "matcher": "Edit|Write"
+    }
+  }
+}
+```
+
+**設定項目**:
+- `type`: `"command"` (bashスクリプト実行) または `"prompt"` (LLMベースの評価)
+- `command`: 実行するコマンド（絶対パス推奨）
+- `matcher`: ツール名のフィルタ（正規表現対応）
+  - 完全一致: `"Write"`
+  - 正規表現: `"Edit|Write"`
+  - 全ツール: `"*"` または省略
+
+### 1-3. command型 vs prompt型
+
+| 項目 | command型 | prompt型 |
+|------|---------|---------|
+| 実行内容 | bashスクリプト | LLMによる評価 |
+| 応答速度 | 高速 | やや遅い |
+| 柔軟性 | 事前にロジックを記述 | 自然言語で条件を記述 |
+| 使い分け | 定型処理・外部連携 | 動的判断・コンテキスト依存 |
+
+**prompt型の例**（実験的機能）:
+```json
+{
+  "hooks": {
+    "PreToolUse": {
+      "type": "prompt",
+      "prompt": "If this edit affects authentication code, add a security review reminder.",
+      "matcher": "Edit"
+    }
+  }
+}
+```
+
+---
+
+## 2. 全14イベント一覧と使い分け
+
+### 2-1. よく使う5つのイベント
+
+| イベント | タイミング | 主な用途 |
+|---------|----------|---------|
+| **PreToolUse** | ツール実行前 | 検証・ブロック・事前チェック |
+| **PostToolUse** | ツール実行後 | フォーマット・Lint・後処理 |
+| **Stop** | 停止時 | 完了通知・Slack投稿・クリーンアップ |
+| **Notification** | 通知発生時 | macOS通知・外部連携 |
+| **SessionStart** | セッション開始時 | コンテキスト初期化・再注入 |
+
+### 2-2. その他のイベント
+
+| イベント | タイミング | 主な用途 |
+|---------|----------|---------|
+| UserPromptSubmit | ユーザープロンプト送信時 | プロンプト記録・分析 |
+| PermissionRequest | 権限要求時 | カスタム許可ロジック |
+| SubagentStop | サブエージェント停止時 | サブエージェント結果処理 |
+| PreCompact | コンテキスト圧縮前 | 圧縮前の情報保存 |
+| SessionEnd | セッション終了時 | ログ保存・統計収集 |
+| TeammateIdle | チームメイトアイドル時 | タイムアウト処理 |
+| TaskCompleted | タスク完了時 | タスク記録・レポート |
+
+---
+
+## 3. 実例①: Slack連携（slack-feedback.sh）
+
+### 3-1. 概要
+
+タスク完了時にSlackへ自動投稿し、絵文字リアクションで次の指示を受け取る仕組み。リモート環境からでもClaude Codeを操作できます。
+
+**実行フロー**:
+```
+Stop イベント → Slack投稿 → フィードバック待機（1分→3分→5分） → リアクション取得 → 指示変換
+```
+
+### 3-2. settings.json設定
+
+```json
+{
+  "hooks": {
+    "Stop": {
+      "type": "command",
+      "command": "bash ~/.claude/hooks/slack-feedback.sh"
+    },
+    "Notification": {
+      "type": "command",
+      "command": "bash ~/.claude/hooks/slack-feedback.sh"
+    }
+  }
+}
+```
+
+### 3-3. リアクション→指示変換マッピング
+
+| 絵文字 | 意味 | 変換後の指示 |
+|-------|------|------------|
+| 👍 | LGTM / CP | コミット&プッシュを実行 |
+| 👀 | レビュー依頼 | コードレビューを開始 |
+| 🔁 | やり直し | タスクをやり直す |
+| ❌ | 破棄 | 変更を破棄 |
+| 🚀 | テスト実行 | テストを実行 |
+| 📝 | ドキュメント作成 | ドキュメントを更新 |
+
+スレッド返信でもフィードバック可能です。
+
+### 3-4. 段階的待機の仕組み
+
+フィードバック待機は3ラウンドで段階的にタイムアウトを延長します。
+
+```bash
+# ラウンド1: 1分待機
+sleep 60
+check_feedback
+
+# ラウンド2: 3分待機
+sleep 180
+check_feedback
+
+# ラウンド3: 5分待機
+sleep 300
+check_feedback
+```
+
+この間、tmuxステータスバーに待機状態が表示されます。
+
+### 3-5. スクリプト構造の概要
+
+```bash
+#!/bin/bash
+# ~/.claude/hooks/slack-feedback.sh
+
+# 1. セッション情報を取得
+PROJECT_NAME=$(basename $(pwd))
+TIMESTAMP=$(date +"%Y-%m-%d %H:%M:%S")
+
+# 2. Slack投稿
+MESSAGE="[${PROJECT_NAME}] タスク完了 (${TIMESTAMP})\nフィードバックをお待ちしています..."
+RESPONSE=$(curl -X POST https://slack.com/api/chat.postMessage \
+  -H "Authorization: Bearer ${SLACK_TOKEN}" \
+  -H "Content-Type: application/json" \
+  -d "{\"channel\":\"#kai-cursor-times\",\"text\":\"${MESSAGE}\"}")
+
+# 3. メッセージIDを取得
+MESSAGE_ID=$(echo $RESPONSE | jq -r '.ts')
+
+# 4. フィードバック待機（3ラウンド）
+wait_for_feedback $MESSAGE_ID
+
+# 5. リアクションを指示に変換
+FEEDBACK=$(get_reactions $MESSAGE_ID)
+convert_to_instruction $FEEDBACK
+```
+
+### 3-6. 必要な設定
+
+**Slack App設定**:
+1. Slack App作成（https://api.slack.com/apps）
+2. Bot Token Scopes: `chat:write`, `reactions:read`, `channels:history`
+3. 環境変数設定: `export SLACK_TOKEN=xoxb-...`
+
+**MCP経由の場合**:
+```bash
+claude mcp add --transport http slack https://mcp.slack.com
+```
+
+---
+
+## 4. 実例②: Lint自動チェック（post-edit-lint.sh）
+
+### 4-1. 概要
+
+ファイル編集後に構文チェックを自動実行し、エラーを即座に検出します。
+
+**対応フォーマット**:
+- Markdown: YAMLフロントマターの閉じ`---`チェック
+- Shell: `bash -n` 構文チェック
+- JSON: `jq empty` 構文チェック
+
+### 4-2. settings.json設定
+
+```json
+{
+  "hooks": {
+    "PostToolUse": {
+      "type": "command",
+      "command": "bash ~/.claude/hooks/post-edit-lint.sh",
+      "matcher": "Edit|Write"
+    }
+  }
+}
+```
+
+### 4-3. スクリプト構造
+
+```bash
+#!/bin/bash
+# ~/.claude/hooks/post-edit-lint.sh
+
+# ツール情報を取得
+TOOL_NAME=$1
+FILE_PATH=$2
+
+# ファイル拡張子で処理分岐
+case "${FILE_PATH##*.}" in
+  md)
+    # YAMLフロントマターチェック
+    if head -n 1 "$FILE_PATH" | grep -q "^---$"; then
+      if ! sed -n '2,/^---$/p' "$FILE_PATH" | grep -q "^---$"; then
+        echo "❌ YAMLフロントマターが閉じられていません: $FILE_PATH"
+        exit 1
+      fi
+    fi
+    ;;
+  sh|bash)
+    # Shell構文チェック
+    if ! bash -n "$FILE_PATH" 2>/dev/null; then
+      echo "❌ Shell構文エラー: $FILE_PATH"
+      bash -n "$FILE_PATH"
+      exit 1
+    fi
+    ;;
+  json)
+    # JSON構文チェック
+    if ! jq empty "$FILE_PATH" 2>/dev/null; then
+      echo "❌ JSON構文エラー: $FILE_PATH"
+      jq empty "$FILE_PATH"
+      exit 1
+    fi
+    ;;
+esac
+
+echo "✅ Lint OK: $FILE_PATH"
+```
+
+### 4-4. エラー時の動作
+
+構文エラーが検出されると、Hookが`exit 1`を返し、Claude Codeのコンテキストにエラー情報が追加されます。Claude Codeは自動的に修正を試みます。
+
+---
+
+## 5. 実例③: Push前チェック（pre-push-check.sh）
+
+### 5-1. 概要
+
+`git push` コマンド検出時に、未コミット変更や高リスクファイルをチェックし、警告を表示します。
+
+### 5-2. settings.json設定
+
+```json
+{
+  "hooks": {
+    "PreToolUse": {
+      "type": "command",
+      "command": "bash ~/.claude/hooks/pre-push-check.sh",
+      "matcher": "Bash"
+    }
+  }
+}
+```
+
+### 5-3. スクリプト構造
+
+```bash
+#!/bin/bash
+# ~/.claude/hooks/pre-push-check.sh
+
+BASH_COMMAND=$1
+
+# git pushコマンドのみ対象
+if [[ ! "$BASH_COMMAND" =~ git.*push ]]; then
+  exit 0
+fi
+
+# 未コミット変更チェック
+UNCOMMITTED=$(git status --short)
+if [ -n "$UNCOMMITTED" ]; then
+  echo "⚠️ 未コミット変更があります:"
+  echo "$UNCOMMITTED"
+fi
+
+# プッシュ対象コミット取得
+COMMITS=$(git log origin/$(git branch --show-current)..HEAD --oneline)
+if [ -n "$COMMITS" ]; then
+  echo "📤 プッシュ対象コミット:"
+  echo "$COMMITS"
+fi
+
+# 高リスクファイル変更チェック
+HIGH_RISK=$(git diff origin/$(git branch --show-current)..HEAD --name-only | grep -E '\.(env|secret|key)$')
+if [ -n "$HIGH_RISK" ]; then
+  echo "🚨 高リスクファイルの変更を検出:"
+  echo "$HIGH_RISK"
+  echo "本当にプッシュしますか？ (y/n)"
+  exit 2  # ユーザー確認を要求
+fi
+
+echo "✅ Push前チェック完了"
+```
+
+### 5-4. exit codeの意味
+
+| exit code | 意味 | Claude Codeの動作 |
+|-----------|------|------------------|
+| 0 | 正常 | そのまま実行 |
+| 1 | エラー | コンテキストにエラー追加 |
+| 2 | ブロック | 実行を中断、ユーザー確認を要求 |
+
+---
+
+## 6. 実例④: コンテキスト再注入（compact-reinject.sh）
+
+### 6-1. 概要
+
+コンテキストウィンドウの圧縮（compaction）後、重要な情報を再注入して情報ロスを防ぎます。
+
+### 6-2. settings.json設定
+
+```json
+{
+  "hooks": {
+    "SessionStart": {
+      "type": "command",
+      "command": "bash ~/.claude/hooks/compact-reinject.sh",
+      "matcher": "compact"
+    }
+  }
+}
+```
+
+### 6-3. 再注入する情報
+
+```bash
+#!/bin/bash
+# ~/.claude/hooks/compact-reinject.sh
+
+# 1. プロジェクト名
+PROJECT_NAME=$(basename $(pwd))
+echo "プロジェクト: $PROJECT_NAME"
+
+# 2. 現在のブランチ
+BRANCH=$(git branch --show-current)
+echo "ブランチ: $BRANCH"
+
+# 3. 直近5コミット
+echo "直近のコミット:"
+git log -5 --oneline
+
+# 4. スプリント情報（存在する場合）
+if [ -f ".sprint-logs/sprint-backlog.md" ]; then
+  echo "スプリント情報:"
+  head -n 20 .sprint-logs/sprint-backlog.md
+fi
+
+# 5. 未コミット変更
+UNCOMMITTED=$(git status --short)
+if [ -n "$UNCOMMITTED" ]; then
+  echo "未コミット変更:"
+  echo "$UNCOMMITTED"
+fi
+```
+
+### 6-4. compaction時の注意点
+
+- `/compact` コマンド実行時に自動圧縮が行われる
+- 圧縮後は以前の会話履歴が要約される
+- 重要な情報はCLAUDE.mdに「圧縮時の保持ルール」として記述可能
+
+```markdown
+# CLAUDE.md
+
+## コンパクション時の保持ルール
+
+以下の情報は/compact後も必ず保持してください:
+- 現在のタスクID・ステータス
+- 未解決のエラーメッセージ
+- プロジェクトのディレクトリ構造
+```
+
+---
+
+## 7. 実例⑤: 機密ファイル保護（protect-sensitive-files.sh）
+
+### 7-1. 概要
+
+機密ファイルへの編集を自動的にブロックします。
+
+### 7-2. settings.json設定
+
+```json
+{
+  "hooks": {
+    "PreToolUse": {
+      "type": "command",
+      "command": "bash ~/.claude/hooks/protect-sensitive-files.sh",
+      "matcher": "Edit|Write"
+    }
+  }
+}
+```
+
+### 7-3. スクリプト構造
+
+```bash
+#!/bin/bash
+# ~/.claude/hooks/protect-sensitive-files.sh
+
+FILE_PATH=$2
+
+# ブロック対象パターン
+SENSITIVE_PATTERNS=(
+  "\.env"
+  "\.env\.*"
+  "credentials\.json"
+  "secrets\.json"
+  "id_rsa"
+  "id_ed25519"
+  "\.gpg"
+)
+
+for pattern in "${SENSITIVE_PATTERNS[@]}"; do
+  if [[ "$FILE_PATH" =~ $pattern ]]; then
+    echo "🚫 機密ファイルへのアクセスがブロックされました: $FILE_PATH"
+    echo "このファイルを編集する場合は、手動で行ってください。"
+    exit 2  # ブロック
+  fi
+done
+
+exit 0
+```
+
+---
+
+## 8. macOS通知システム（ccnotify.py + terminal-notifier）
+
+### 8-1. 概要
+
+タスク完了時にmacOSネイティブ通知を表示し、通知クリックでVSCodeを開きます。
+
+### 8-2. 必要なツール
+
+```bash
+# terminal-notifierインストール
+brew install terminal-notifier
+
+# Python依存パッケージ
+pip install sqlite3
+```
+
+### 8-3. ccnotify.py の構造
+
+```python
+#!/usr/bin/env python3
+# ~/.claude/ccnotify/ccnotify.py
+
+import sqlite3
+import subprocess
+from datetime import datetime
+
+DB_PATH = "~/.claude/ccnotify/prompts.db"
+
+def record_prompt(prompt_text):
+    """プロンプトをDBに記録"""
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    cursor.execute(
+        "INSERT INTO prompts (text, timestamp) VALUES (?, ?)",
+        (prompt_text, datetime.now().isoformat())
+    )
+    conn.commit()
+    conn.close()
+
+def send_notification(title, message, project_path):
+    """macOS通知を送信"""
+    subprocess.run([
+        "terminal-notifier",
+        "-title", title,
+        "-message", message,
+        "-open", f"vscode://file/{project_path}",
+        "-sound", "default"
+    ])
+
+# Hook経由で呼び出される
+if __name__ == "__main__":
+    import sys
+    event_type = sys.argv[1]
+
+    if event_type == "UserPromptSubmit":
+        record_prompt(sys.argv[2])
+    elif event_type == "Stop":
+        send_notification(
+            "Claude Code",
+            "タスクが完了しました",
+            os.getcwd()
+        )
+```
+
+### 8-4. settings.json設定
+
+```json
+{
+  "hooks": {
+    "UserPromptSubmit": {
+      "type": "command",
+      "command": "python3 ~/.claude/ccnotify/ccnotify.py UserPromptSubmit"
+    },
+    "Stop": {
+      "type": "command",
+      "command": "python3 ~/.claude/ccnotify/ccnotify.py Stop"
+    }
+  }
+}
+```
+
+---
+
+## 9. 自作Hookの作り方TIPS
+
+### 9-1. 基本テンプレート
+
+```bash
+#!/bin/bash
+# ~/.claude/hooks/my-hook.sh
+
+# 1. イベント情報を取得
+TOOL_NAME=$1
+TOOL_ARG=$2
+PROJECT_PATH=$(pwd)
+
+# 2. 処理を実行
+echo "Hook実行中: $TOOL_NAME on $TOOL_ARG"
+
+# 3. 必要に応じて外部サービスと連携
+# curl -X POST ...
+
+# 4. 結果を返す
+exit 0  # 0: 成功, 1: エラー, 2: ブロック
+```
+
+### 9-2. デバッグ方法
+
+Hook実行ログは `~/.claude/debug/` に記録されます。
+
+```bash
+# ログ確認
+tail -f ~/.claude/debug/hooks.log
+```
+
+デバッグ用にstderrへ出力:
+```bash
+echo "Debug: TOOL_NAME=$TOOL_NAME" >&2
+```
+
+### 9-3. 実行権限の付与
+
+```bash
+chmod +x ~/.claude/hooks/my-hook.sh
+```
+
+### 9-4. Hookのテスト
+
+```bash
+# 直接実行してテスト
+bash ~/.claude/hooks/my-hook.sh "Edit" "/path/to/file.md"
+```
+
+### 9-5. よくある問題と対処法
+
+| 問題 | 原因 | 対処法 |
+|------|------|--------|
+| Hookが実行されない | 実行権限がない | `chmod +x` で権限付与 |
+| パスが通らない | 相対パスを使用 | 絶対パス (`~/.claude/...`) を使用 |
+| 環境変数が取れない | シェル環境が異なる | スクリプト内で `source ~/.zshrc` |
+| タイムアウト | 処理が長すぎる | バックグラウンド実行 (`&`) を検討 |
+
+---
+
+## 10. まとめ
+
+### 10-1. Hooksのベストプラクティス
+
+1. **小さく始める**: 1つのHookから始めて徐々に拡張
+2. **冪等性を保つ**: 同じHookを複数回実行しても問題ないように設計
+3. **エラーハンドリング**: 外部サービス連携は必ずエラー処理を追加
+4. **ログを残す**: デバッグ用に実行ログを記録
+5. **パフォーマンス**: 重い処理はバックグラウンド実行
+
+### 10-2. 推奨Hook構成（初心者向け）
+
+まずはこの3つから:
+1. **post-edit-lint.sh**: 編集後の構文チェック（品質向上）
+2. **protect-sensitive-files.sh**: 機密ファイル保護（セキュリティ）
+3. **slack-feedback.sh**: Slack連携（リモート運用）
+
+### 10-3. 参考リンク
+
+- [Claude Code公式ドキュメント - Hooks](https://code.claude.com/docs/ja/hooks)
+- [Hooks基本的な使い方](https://dev.classmethod.jp/articles/claude-code-hooks-basic-usage/)
+- [Hooks解説 - Zenn](https://zenn.dev/buddypia/articles/99abea47607225)
+- [settings.json設定ガイド](https://syu-m-5151.hatenablog.com/entry/2025/06/05/134147)
+
+---
+
+## 付録: 完全な設定例
+
+```json
+{
+  "hooks": {
+    "UserPromptSubmit": {
+      "type": "command",
+      "command": "python3 ~/.claude/ccnotify/ccnotify.py UserPromptSubmit"
+    },
+    "SessionStart": {
+      "type": "command",
+      "command": "bash ~/.claude/hooks/compact-reinject.sh",
+      "matcher": "compact"
+    },
+    "PreToolUse": [
+      {
+        "type": "command",
+        "command": "bash ~/.claude/hooks/pre-push-check.sh",
+        "matcher": "Bash"
+      },
+      {
+        "type": "command",
+        "command": "bash ~/.claude/hooks/protect-sensitive-files.sh",
+        "matcher": "Edit|Write"
+      }
+    ],
+    "PostToolUse": {
+      "type": "command",
+      "command": "bash ~/.claude/hooks/post-edit-lint.sh",
+      "matcher": "Edit|Write"
+    },
+    "Stop": [
+      {
+        "type": "command",
+        "command": "bash ~/.claude/hooks/slack-feedback.sh"
+      },
+      {
+        "type": "command",
+        "command": "python3 ~/.claude/ccnotify/ccnotify.py Stop"
+      }
+    ],
+    "Notification": {
+      "type": "command",
+      "command": "bash ~/.claude/hooks/slack-feedback.sh"
+    }
+  }
+}
+```
+
+この設定により、編集後の自動チェック、機密ファイル保護、Slack連携、macOS通知がすべて動作します。
