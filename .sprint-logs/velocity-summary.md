@@ -1,7 +1,7 @@
 ---
 velocity_summary:
   last_updated: "2026-02-27"
-  sprint_count: 2
+  sprint_count: 3
   sprints:
     - id: "SPRINT-001"
       date: "2026-02-26"
@@ -13,9 +13,14 @@ velocity_summary:
       planned_sp: 16
       completed_sp: 16
       completion_rate: 100
+    - id: "SPRINT-003"
+      date: "2026-02-27"
+      planned_sp: 12
+      completed_sp: 12
+      completion_rate: 100
   aggregated:
-    avg_planned_sp: 15.5
-    avg_completed_sp: 15.5
+    avg_planned_sp: 14.3
+    avg_completed_sp: 14.3
     avg_completion_rate: 100
     velocity_trend: "stable"
   po_efficiency:
@@ -24,6 +29,10 @@ velocity_summary:
       autonomous_rate: 100
       session_utilization: 85
     - sprint: "SPRINT-002"
+      po_wait_minutes: 5
+      autonomous_rate: 100
+      session_utilization: 85
+    - sprint: "SPRINT-003"
       po_wait_minutes: 5
       autonomous_rate: 100
       session_utilization: 85
@@ -47,13 +56,14 @@ velocity_summary:
 |---|-----------|------|--------|--------|--------|
 | 1 | SPRINT-001 | 2026-02-26 | 15 | 15 | 100% |
 | 2 | SPRINT-002 | 2026-02-27 | 16 | 16 | 100% |
+| 3 | SPRINT-003 | 2026-02-27 | 12 | 12 | 100% |
 
 ## 集計
 
 | 指標 | 値 |
 |------|-----|
-| 平均計画SP | 15.5 |
-| 平均完了SP | 15.5 |
+| 平均計画SP | 14.3 |
+| 平均完了SP | 14.3 |
 | 平均消化率 | 100% |
 | ベロシティトレンド | stable |
 
@@ -63,6 +73,7 @@ velocity_summary:
 |---|-----------|---------------|-----------|----------------|
 | 1 | SPRINT-001 | 5 | 100% | 85% |
 | 2 | SPRINT-002 | 5 | 100% | 85% |
+| 3 | SPRINT-003 | 5 | 100% | 85% |
 
 ## 時間効率トレンド
 

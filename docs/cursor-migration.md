@@ -361,56 +361,30 @@ claude
 | **起動** | エディタ内パネル | `/plan` コマンド |
 | **編集方法** | インライン編集 | `Ctrl+G` でプラン編集 |
 | **実行** | 自動適用 | Plan確認後、Normal Modeで実行 |
+| **終了** | パネルを閉じる | `/normal` コマンド |
 | **中断** | ❌ 難しい | ✅ Plan確認後に中断可能 |
 
-### 推奨4フェーズワークフロー
+### Plan Modeの操作まとめ
 
-```
-Phase 1: 探索（Plan Mode）
-  ↓ ファイル読み取り・質問応答
-Phase 2: 計画（Plan Mode）
-  ↓ 実装計画作成、Ctrl+Gで編集
-Phase 3: 実装（Normal Mode）
-  ↓ コーディング・テスト
-Phase 4: コミット
-  ↓ 説明的メッセージでCP&PR
-```
+| 操作 | コマンド/ショートカット |
+|------|---------------------|
+| Plan Mode開始 | `/plan` |
+| プラン編集 | `Ctrl+G` |
+| Normal Modeに戻る | `/normal` |
 
-**実例:**
+> Plan Modeの詳細な使い方・4フェーズワークフロー・活用例については、[VSCode利用ガイド Section 7.5](./vscode-guide.md#75-plan-modeの活用) を参照してください。
 
-```bash
-# Phase 1: 探索（Plan Mode）
-claude
-> /plan
-> このプロジェクトのAPI認証の仕組みを調査して
-
-> Read /src/auth/index.ts
-> Read /src/middleware/auth.ts
-# → Claude Codeがファイルを読み取り、構造を理解
-
-# Phase 2: 計画（Plan Mode）
-> JWT認証をOAuth 2.0に移行する計画を立てて
-
-# Ctrl+G でプランを編集
-# - Step 1: OAuth 2.0ライブラリ追加
-# - Step 2: /src/auth/oauth.ts 作成
-# - Step 3: middleware書き換え
-# - Step 4: テスト追加
-
-# Phase 3: 実装（Normal Mode）
-> /normal
-> プランを実行してください
-
-# Phase 4: コミット
-> /commit
-> "feat: migrate authentication from JWT to OAuth 2.0"
-```
+### Cursor経験者向けのポイント
 
 **Plan Modeの利点（Composer比較）:**
 - ✅ 実装前に全体像を確認できる
 - ✅ プランを編集してから実行可能
 - ✅ 途中で中断・修正しやすい
 - ✅ コンテキストウィンドウを節約（探索フェーズで最小限のRead）
+
+**ComposerからPlan Modeへの移行TIPS:**
+- Composerで「全自動適用」に慣れている場合でも、Plan Modeで一度計画を確認する習慣をつけると手戻りが減る
+- 小さなタスクはNormal Modeで直接実行してOK。Plan Modeは複雑なタスク向け
 
 ---
 

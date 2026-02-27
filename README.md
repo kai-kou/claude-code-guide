@@ -5,7 +5,7 @@ project:
   status: active
   priority: medium
   created: "2026-02-26"
-  updated: "2026-02-26"
+  updated: "2026-02-27"
   owner: "kai.ko"
   tags: [claude-code, documentation, best-practices, tips, google-slides]
   summary: "Claude Code初心者向け利用ガイド・ベストプラクティス・TIPSのドキュメント作成（Googleスライドで共有）"
@@ -17,6 +17,22 @@ project:
 ## 概要
 
 Claude Codeを初めて利用するユーザー向けに、利用ガイド・ベストプラクティス・TIPSを共有するためのドキュメントを作成する。最終成果物はGoogleスライドとして共有する。
+
+## 想定読者
+
+このガイドは、読者の経験レベルに応じて3段階の難易度で構成しています。自分のレベルに合ったドキュメントから読み始めてください。
+
+| レベル | 対象者 | 推奨ドキュメント |
+|-------|-------|----------------|
+| ⭐ 初心者 | Claude Codeを初めて使う人、VSCodeでの基本利用を学びたい人 | VSCode利用ガイド、利用制限ガイド |
+| ⭐⭐ 中級者 | 基本操作に慣れ、Hooks・MCP連携・Plan Modeを活用したい人 | Slack連携ガイド、tmux活用ガイド |
+| ⭐⭐⭐ 上級者 | Agent Teams、カスタムスキル作成、チーム導入を検討している人 | Cursorからの移行ガイド |
+
+### 前提知識
+
+- **必須**: ターミナル操作（基本的なシェルコマンド）、VSCodeの基本操作
+- **推奨**: Git操作、Node.js/npmの基本知識
+- **対象OS**: macOS（一部のKeychainやtmux設定はmacOS固有）
 
 ## ゴール
 

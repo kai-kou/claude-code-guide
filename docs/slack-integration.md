@@ -182,20 +182,27 @@ check_feedback
 PROJECT_NAME=$(basename $(pwd))
 TIMESTAMP=$(date +"%Y-%m-%d %H:%M:%S")
 
-# 2. Slack投稿
+# 2. Keychainからトークンを取得（平文での環境変数保存は非推奨）
+SLACK_TOKEN=$(security find-generic-password -a "claude-code" -s "slack-bot-token" -w 2>/dev/null)
+if [ -z "$SLACK_TOKEN" ]; then
+  echo "❌ Slack Token未設定。Keychainに登録してください。" >&2
+  exit 1
+fi
+
+# 3. Slack投稿
 MESSAGE="[${PROJECT_NAME}] タスク完了 (${TIMESTAMP})\nフィードバックをお待ちしています..."
 RESPONSE=$(curl -X POST https://slack.com/api/chat.postMessage \
   -H "Authorization: Bearer ${SLACK_TOKEN}" \
   -H "Content-Type: application/json" \
   -d "{\"channel\":\"#kai-cursor-times\",\"text\":\"${MESSAGE}\"}")
 
-# 3. メッセージIDを取得
+# 4. メッセージIDを取得
 MESSAGE_ID=$(echo $RESPONSE | jq -r '.ts')
 
-# 4. フィードバック待機（3ラウンド）
+# 5. フィードバック待機（3ラウンド）
 wait_for_feedback $MESSAGE_ID
 
-# 5. リアクションを指示に変換
+# 6. リアクションを指示に変換
 FEEDBACK=$(get_reactions $MESSAGE_ID)
 convert_to_instruction $FEEDBACK
 ```
@@ -205,12 +212,43 @@ convert_to_instruction $FEEDBACK
 **Slack App設定**:
 1. Slack App作成（https://api.slack.com/apps）
 2. Bot Token Scopes: `chat:write`, `reactions:read`, `channels:history`
-3. 環境変数設定: `export SLACK_TOKEN=xoxb-...`
+3. トークンをmacOS Keychainに保存（下記参照）
 
-**MCP経由の場合**:
+**トークンの安全な管理（macOS Keychain）**:
+
+> **警告**: `export SLACK_TOKEN=xoxb-...` のように環境変数に平文でトークンを保存するのは**非推奨**です。`.zshrc` が流出した場合、トークンも漏洩します。macOS標準のKeychainを使いましょう。
+
+**Step 1: Keychainにトークンを登録**
+
+```bash
+security add-generic-password \
+  -a "claude-code" \
+  -s "slack-bot-token" \
+  -w "xoxb-your-token-here" \
+  -T "" \
+  ~/Library/Keychains/login.keychain-db
+```
+
+**Step 2: スクリプトからKeychainのトークンを取得**
+
+```bash
+SLACK_TOKEN=$(security find-generic-password \
+  -a "claude-code" \
+  -s "slack-bot-token" \
+  -w 2>/dev/null)
+
+if [ -z "$SLACK_TOKEN" ]; then
+  echo "❌ Slack Tokenが見つかりません。Keychainに登録してください。" >&2
+  exit 1
+fi
+```
+
+**MCP経由の場合**（トークン管理が不要）:
 ```bash
 claude mcp add --transport http slack https://mcp.slack.com
 ```
+
+> MCP経由ならOAuth認証でトークン管理を自動化できるため、Keychain設定は不要です。
 
 ---
 
@@ -427,55 +465,17 @@ fi
 
 ---
 
-## 7. 実例⑤: 機密ファイル保護（protect-sensitive-files.sh）
+## 7. 機密ファイル保護（Slack連携環境での注意点）
 
-### 7-1. 概要
+Slack連携で `SLACK_TOKEN` を扱う場合、機密情報の保護が特に重要です。Section 3-6で紹介したmacOS Keychainでのトークン管理に加えて、**settings.jsonのDenyリスト**と**Hookスクリプト**による二段構えの保護を設定しましょう。
 
-機密ファイルへの編集を自動的にブロックします。
+> 機密ファイル保護の詳細な設定方法（settings.json Denyリスト、protect-sensitive-files.shスクリプトの実装例、ブロック対象パターン一覧）については、[利用制限とサンドボックスガイド Section 4](./usage-limits-sandbox.md#4-機密ファイル保護) を参照してください。
 
-### 7-2. settings.json設定
+**Slack連携で特に注意すべき機密ファイル:**
 
-```json
-{
-  "hooks": {
-    "PreToolUse": {
-      "type": "command",
-      "command": "bash ~/.claude/hooks/protect-sensitive-files.sh",
-      "matcher": "Edit|Write"
-    }
-  }
-}
-```
-
-### 7-3. スクリプト構造
-
-```bash
-#!/bin/bash
-# ~/.claude/hooks/protect-sensitive-files.sh
-
-FILE_PATH=$2
-
-# ブロック対象パターン
-SENSITIVE_PATTERNS=(
-  "\.env"
-  "\.env\.*"
-  "credentials\.json"
-  "secrets\.json"
-  "id_rsa"
-  "id_ed25519"
-  "\.gpg"
-)
-
-for pattern in "${SENSITIVE_PATTERNS[@]}"; do
-  if [[ "$FILE_PATH" =~ $pattern ]]; then
-    echo "🚫 機密ファイルへのアクセスがブロックされました: $FILE_PATH"
-    echo "このファイルを編集する場合は、手動で行ってください。"
-    exit 2  # ブロック
-  fi
-done
-
-exit 0
-```
+- `.env`（SLACK_TOKENを環境変数で管理する場合 — 非推奨）
+- `~/.claude/hooks/slack-feedback.sh`（トークンをハードコードしていないか確認）
+- Slack App設定のBot Token（Keychain管理を推奨）
 
 ---
 

@@ -215,9 +215,28 @@ EOF
 
 `--dangerously-skip-permissions` フラグは、すべての権限チェックをバイパスするオプションです。
 
+> **⚠️ 重要な警告: このフラグの危険性を正しく理解してください**
+>
+> このフラグを有効にすると、Claude Codeは**一切の確認なし**で以下を実行できます:
+>
+> - **ファイル破壊**: `rm -rf /` や `rm -rf ~/*` が即座に実行される
+> - **機密情報の漏洩**: `.env`, `credentials.json`, SSH秘密鍵が無確認で読み書きされる
+> - **Git操作の暴走**: `git push --force`, `git reset --hard` が確認なしで実行される
+> - **プロジェクト外アクセス**: `~/.ssh/`, `~/.gnupg/`, `~/.aws/` など機密ディレクトリにアクセスされる
+>
+> **サンドボックスを併用すれば安全に使える**: サンドボックスがOSレベルでファイルシステム・ネットワークを隔離するため、上記リスクの大部分が軽減されます。
+
+**条件付き許容（推奨構成）**:
+
+このフラグは以下の条件を**すべて満たす**場合にのみ使用してください:
+
+1. **サンドボックスが有効**（`sandbox.enabled: true`）
+2. **permissions.deny で危険コマンドをブロック済み**
+3. **tmux環境などバックグラウンド実行が必要な場合**
+
 **正しい使用例**:
 - サンドボックス制約でコマンドが動作しない場合（Docker、Unixソケット通信など）
-- セキュリティリスクを理解した上で、一時的に制約を解除する
+- tmux環境で対話的な権限確認が困難な場合（サンドボックス併用前提）
 
 **設定方法**:
 ```json
@@ -229,9 +248,10 @@ EOF
 このフラグを `true` にすると、`dangerouslyDisableSandbox` オプション付きのコマンドが確認なしで実行されます。
 
 **注意点**:
-- **原則としてサンドボックス内で実行すること**
+- **原則としてサンドボックス内で実行すること**（最重要）
 - サンドボックス外で実行する場合は、ファイルパスやネットワークアクセスを慎重に確認
 - 公開リポジトリに設定ファイルをコミットする場合、このフラグは含めない
+- **初心者はこのフラグを使わず、まずはAllow/Denyリストの整備から始めること**
 
 **ctコマンドでの自動付与**:
 `ct` コマンド（Claude Code Tmux統合）を使うと、自動的に `--dangerously-skip-permissions` が付与されます。
@@ -240,15 +260,56 @@ EOF
 ct "タスクを実行してください"
 ```
 
-これは、tmuxセッション内での操作が信頼できる環境であることを前提としています。
+これは、tmuxセッション内での操作が信頼できる環境であることを前提としています。**ctコマンドを使う場合も、必ずサンドボックスを有効にしてください。**
 
 ---
 
 ## 4. 機密ファイル保護
 
+### 4-0. 二段構えの保護戦略（推奨）
+
+機密ファイルの保護は、**settings.jsonのDenyリスト**（第1防衛線）と**Hookスクリプト**（第2防衛線）の二段構えで行うことを推奨します。
+
+> **なぜ二段構えが必要か?**
+> - Hookスクリプトはファイル削除や設定ミスでバイパスされる可能性がある
+> - settings.jsonのDenyリストはClaude Code本体が直接参照するため、より堅牢
+> - 両方を設定することで、片方が失敗してももう一方が保護を維持する
+
+**第1防衛線: settings.json の permissions.deny**
+
+```json
+{
+  "permissions": {
+    "deny": [
+      "Edit(.env)",
+      "Edit(.env.*)",
+      "Edit(credentials.json)",
+      "Edit(secrets.json)",
+      "Edit(service-account*.json)",
+      "Write(.env)",
+      "Write(.env.*)",
+      "Write(credentials.json)",
+      "Write(secrets.json)",
+      "Write(service-account*.json)",
+      "Read(.env)",
+      "Read(.env.*)",
+      "Read(credentials.json)",
+      "Read(secrets.json)",
+      "Bash(rm -rf /)",
+      "Bash(rm -rf /*)",
+      "Bash(sudo *)"
+    ]
+  }
+}
+```
+
+> **ポイント**: `deny` リストは `allow` リストより**常に優先**されます。たとえ `allow` に `Edit(*)` があっても、`deny` に `Edit(.env)` があればブロックされます。
+
+**第2防衛線: protect-sensitive-files.sh Hook**（下記参照）
+
 ### 4-1. protect-sensitive-files.sh hookの仕組み
 
-Claude Codeは、**PreToolUse（Edit|Write）** フックで機密ファイルへの書き込みを自動ブロックする機能を提供します。
+Claude Codeは、**PreToolUse（Edit|Write）** フックで機密ファイルへの書き込みを自動ブロックする機能を提供します。settings.jsonのDenyリストと併用することで、二重の保護を実現します。
 
 **hookの設定例**:
 ```json
