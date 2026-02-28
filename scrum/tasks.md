@@ -1,16 +1,16 @@
 ---
 tasks:
   total: 29
-  completed: 15
+  completed: 17
   in_progress: 0
   blocked: 0
-  overall_progress: 52
+  overall_progress: 59
 ---
 
 # タスク管理
 
 **プロジェクト**: claude-code-guide
-**最終更新**: 2026-02-27 (SPRINT-003 プランニング)
+**最終更新**: 2026-02-27 (SPRINT-004 全タスク完了)
 
 ---
 
@@ -34,16 +34,16 @@ tasks:
 
 ## 進捗サマリー
 
-**全体**: 15/29 タスク完了 (52%)
+**全体**: 17/29 タスク完了 (59%)
 
 ### フェーズ別進捗
 - Phase 1: 4/4 完了 (100%)
 - Phase 2: 5/5 完了 (100%)
-- Phase 3: 6/20 完了 (30%) ← ドキュメントレビュー修正
+- Phase 3: 8/20 完了 (40%) ← ドキュメントレビュー修正
 
 ### 優先度別
-- P0: 7/8 完了
-- P1: 8/11 完了
+- P0: 8/8 完了
+- P1: 10/11 完了
 - P2: 0/6 完了
 - P3: 0/4 完了
 
@@ -88,17 +88,17 @@ tasks:
 | T201 | [M-01] Slack Token平文保存の廃止 — slack-integration.mdでKeychain使用に変更 | P0 | 3 | ✅ 完了 | 2026-02-27 | Critical, Risk, TRY-001, SPRINT-003 |
 | T202 | [M-02] --dangerously-skip-permissionsの危険性明記 — tmux-guide.md, usage-limits-sandbox.mdに具体的危険例追加 | P0 | 2 | ✅ 完了 | 2026-02-27 | Critical, Risk, 条件付き許容, TRY-001, SPRINT-003 |
 | T203 | [M-03] 機密ファイル保護スクリプトの強化 — settings.jsonのdenyリスト必須化、二段構え保護 | P0 | 2 | ✅ 完了 | 2026-02-27 | Critical, Risk, TRY-001, SPRINT-003 |
-| T204 | [M-04] アウトラインと実ドキュメントの同期 — claude-code-intro.md, mcp-servers.md, skills-agents.md新規作成 | P0 | 8 | ⬜ 未着手 | 2026-03-01 | Critical, What/How, TRY-001 |
+| T204 | [M-04] アウトラインと実ドキュメントの同期 — claude-code-intro.md, mcp-servers.md, skills-agents.md新規作成 | P0 | 8 | ✅ 完了 | 2026-02-27 | Critical, What/How, TRY-001, SPRINT-004 |
 
 ### Phase 3-2: High（今週中対応）
 
 | ID | タスク | 優先度 | SP | ステータス | 期限 | 備考 |
 |----|--------|--------|----|-----------|------|------|
 | T205 | [M-05] ターゲット読者の再定義 — README.mdに「想定読者」セクション追加、難易度マーク導入 | P1 | 2 | ✅ 完了 | 2026-02-27 | High, For Whom, SPRINT-003 |
-| T206 | [M-06] 「Why」の強化 — 全ドキュメント冒頭にPain Point → Solution形式追加 | P1 | 5 | ⬜ 未着手 | TBD | High, Why |
+| T206 | [M-06] 「Why」の強化 — 全ドキュメント冒頭にPain Point → Solution形式追加 | P1 | 5 | ✅ 完了 | 2026-02-27 | High, Why, SPRINT-004 |
 | T207 | [M-07] Plan Mode説明の統一 — vscode-guide.mdをマスター化、cursor-migration.mdから参照 | P1 | 2 | ✅ 完了 | 2026-02-27 | High, What/How, SPRINT-003 |
 | T208 | [M-08] protect-sensitive-files.sh重複削除 — 1箇所に集約、他は参照リンク | P1 | 1 | ✅ 完了 | 2026-02-27 | High, What, SPRINT-003 |
-| T209 | [M-09] 環境前提条件の明記 — 全ドキュメント冒頭にOS・ツールバージョン・認証設定を追加 | P1 | 3 | ⬜ 未着手 | TBD | High, How |
+| T209 | [M-09] 環境前提条件の明記 — 全ドキュメント冒頭にOS・ツールバージョン・認証設定を追加 | P1 | 3 | ✅ 完了 | 2026-02-27 | High, How, SPRINT-004 |
 | T210 | [M-10] AI生成感の払拭 — テーブル50%散文化、個人体験談追加、定型フレーズ削減 | P1 | 8 | ⬜ 未着手 | TBD | High, Humanize |
 
 ### Phase 3-3: Medium（2週間以内対応）

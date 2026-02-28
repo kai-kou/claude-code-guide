@@ -1,16 +1,16 @@
 ---
 kpt_history:
-  total_sprints: 3
-  total_keeps: 8
-  total_problems: 5
-  total_tries: 3
-  last_updated: "2026-02-27"
+  total_sprints: 4
+  total_keeps: 12
+  total_problems: 7
+  total_tries: 4
+  last_updated: "2026-02-28"
 ---
 
 # KPT履歴（横断管理）
 
 **プロジェクト**: claude-code-guide
-**最終更新**: 2026-02-27
+**最終更新**: 2026-02-28
 
 > 各スプリントのKPT（Keep/Problem/Try）を横断的に集約する。
 > スプリント間のパターン検出、改善の進捗追跡、チームの成長傾向の把握に活用する。
@@ -31,6 +31,10 @@ kpt_history:
 | 6 | SPRINT-003 | Wave分割（Critical先行→P1品質改善）による優先度ベースの実行 | プロセス |
 | 7 | SPRINT-003 | 案B採用（推奨SP範囲内）でリスク回避が適切に機能 | プロセス |
 | 8 | SPRINT-003 | TRY-001の期限設定が実際に機能し、Criticalタスクが期限前に完了 | プロセス |
+| 9 | SPRINT-004 | 4スプリント連続SP消化率100%達成（見積もり精度が安定） | 効率 |
+| 10 | SPRINT-004 | 3並列リサーチエージェントで新規ドキュメントの正確性確保（ハルシネーション防止） | 品質 |
+| 11 | SPRINT-004 | Wave構成の依存関係設計が有効（Wave 1新規作成→Wave 2横断修正） | プロセス |
+| 12 | SPRINT-004 | timing記録の初回実施成功（TRY-002、セッション14分/実行13分） | プロセス |
 
 ### カテゴリ定義
 
@@ -54,6 +58,8 @@ kpt_history:
 | 3 | SPRINT-002 | 時間計測の欠如（timingセクション未記録） | プロセス | 解決済み | TRY-002 |
 | 4 | SPRINT-003 | timing記録が依然未実施（TRY-002が2スプリント連続で未達成） | プロセス | 未解決 | TRY-002 |
 | 5 | SPRINT-003 | SPRINT-XXX.mdのタスク実行ログがリアルタイム更新されない | プロセス | 未解決 | TRY-003 |
+| 6 | SPRINT-004 | Slack投稿記録が未実施（sprint-backlog.mdの投稿記録欄が空） | プロセス | 未解決 | — |
+| 7 | SPRINT-004 | SP16が推奨範囲（5〜13）を超過（T204が8SPで押し上げ） | プロセス | 未解決 | TRY-004 |
 
 ---
 
@@ -63,9 +69,10 @@ kpt_history:
 
 | TRY-ID | スプリント | 改善内容 | 対象 | 優先度 | ステータス |
 |--------|-----------|---------|------|--------|-----------|
-| TRY-001 | SPRINT-002 | Phase 3 Criticalタスク（T201〜T204）の期限設定 | Process | High | In Progress |
+| TRY-001 | SPRINT-002 | Phase 3 Criticalタスク（T201〜T204）の期限設定 | Process | High | Completed |
 | TRY-002 | SPRINT-002 | timing記録の習慣化（timingセクション更新ルール追記） | Process | Medium | In Progress |
 | TRY-003 | SPRINT-003 | スプリントログのタスクステータスをリアルタイム更新する | Process | Low | Pending |
+| TRY-004 | SPRINT-004 | 大型タスク（8SP超）は分割して推奨SP範囲内に収める | Process | Medium | Pending |
 
 ---
 
@@ -79,7 +86,7 @@ kpt_history:
 
 | パターン | 出現回数 | 関連スプリント |
 |---------|---------|-------------|
-| SP消化率100% | 3 | SPRINT-001, SPRINT-002, SPRINT-003 |
+| SP消化率100% | 4 | SPRINT-001, SPRINT-002, SPRINT-003, SPRINT-004 |
 
 ### 繰り返し出現するProblem（構造的課題）
 
@@ -93,7 +100,7 @@ kpt_history:
 
 | 期間 | 登録数 | 完了数 | 完了率 |
 |------|-------|-------|-------|
-| 全期間 | 3 | 0 | 0% |
+| 全期間 | 4 | 1 | 25% |
 
 ---
 

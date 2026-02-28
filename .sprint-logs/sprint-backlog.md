@@ -1,29 +1,29 @@
 ---
 sprint:
-  id: "SPRINT-003"
+  id: "SPRINT-004"
   project: "claude-code-guide"
   date: "2026-02-27"
   status: "completed"
 backlog:
-  total_tasks: 6
-  total_sp: 12
-  completed_tasks: 6
-  completed_sp: 12
+  total_tasks: 3
+  total_sp: 16
+  completed_tasks: 3
+  completed_sp: 16
   sp_completion_rate: 100
 ---
 
 # スプリントバックログ
 
-**スプリント**: SPRINT-003
+**スプリント**: SPRINT-004
 **プロジェクト**: claude-code-guide
 **日付**: 2026-02-27
-**ステータス**: in_progress
+**ステータス**: completed
 
 ---
 
 ## スプリント目標
 
-> Criticalセキュリティ修正（T201〜T203）を完了し、ドキュメントの安全性を確保する。あわせてP1の小タスク（T205, T207, T208）で品質改善を進める。
+> M3（ドキュメントレビュー修正完了）の進捗を加速させる。Critical残タスクT204（アウトライン同期・3ファイル新規作成）を完了し、High優先度のT206（「Why」強化）・T209（環境前提条件明記）に着手・完了する。
 
 ---
 
@@ -31,40 +31,37 @@ backlog:
 
 | # | タスクID | タスク名 | SP | 優先度 | 担当 | ステータス | 備考 |
 |---|---------|---------|-----|--------|------|-----------|------|
-| 1 | T201 | [M-01] Slack Token平文保存の廃止 — Keychain使用に変更 | 3 | P0 | sprint-documenter | ✅ | Critical, Security |
-| 2 | T202 | [M-02] --dangerously-skip-permissionsの危険性明記 | 2 | P0 | sprint-documenter | ✅ | Critical, Security |
-| 3 | T203 | [M-03] 機密ファイル保護スクリプトの強化 | 2 | P0 | sprint-documenter | ✅ | Critical, Security |
-| 4 | T205 | [M-05] ターゲット読者の再定義 | 2 | P1 | sprint-documenter | ✅ | High, For Whom |
-| 5 | T207 | [M-07] Plan Mode説明の統一 | 2 | P1 | sprint-documenter | ✅ | High, What/How |
-| 6 | T208 | [M-08] protect-sensitive-files.sh重複削除 | 1 | P1 | sprint-documenter | ✅ | High, What |
+| 1 | T204 | [M-04] アウトライン同期（claude-code-intro.md, mcp-servers.md, skills-agents.md新規作成） | 8 | P0 | sprint-documenter | ✅ | Critical, What/How |
+| 2 | T206 | [M-06] 「Why」の強化（全ドキュメント冒頭にPain Point→Solution追加） | 5 | P1 | sprint-documenter | ✅ | High, Why |
+| 3 | T209 | [M-09] 環境前提条件の明記（全ドキュメント冒頭にOS・ツールバージョン追加） | 3 | P1 | sprint-documenter | ✅ | High, How |
 
 ### SP集計
 
 | 項目 | 値 |
 |------|-----|
-| 計画SP合計 | 12 |
-| 完了SP合計 | 12 |
+| 計画SP合計 | 16 |
+| 完了SP合計 | 16 |
 | SP消化率 | 100% |
-| タスク数 | 6 / 6 |
+| タスク数 | 3 / 3 |
 
 ### 粒度チェック
 
-- [x] SP合計 ≤ 21（推奨: 5〜13）— ✅ 12SPで推奨範囲内
-- [x] タスク数 ≤ 10（推奨: 3〜7）— ✅ 6件で推奨範囲内
-- [x] 推定所要時間 ≤ 4時間（推奨: 15分〜2時間）— ✅ ドキュメント修正中心で1〜2時間推定
+- [x] SP合計 ≤ 21（推奨: 5〜13）— ⚠️ 16SPで推奨上限超だが上限21以内
+- [x] タスク数 ≤ 10（推奨: 3〜7）— ✅ 3件で推奨範囲内
+- [x] 推定所要時間 ≤ 4時間（推奨: 15分〜2時間）— ⚠️ T204が大きめ、2〜3時間推定
 
 ---
 
 ## 入力元
 
-- **milestones.md**: M3（ドキュメントレビュー修正完了）— 未着手 → 進行中
-- **tasks.md**: Phase 3 タスク T201〜T203（P0）+ T205, T207, T208（P1）を抽出
-- **前回Try**: TRY-001（Phase 3 Criticalの期限設定）→ T201〜T203に期限反映済み、TRY-002（timing記録）→ 継続
-- **前回ベロシティ**: 平均15.5SP / 消化率100%（2スプリント）
+- **milestones.md**: M3（ドキュメントレビュー修正完了）— 進行中
+- **tasks.md**: Phase 3 タスク T204（P0）+ T206, T209（P1）を抽出
+- **前回Try**: TRY-001（Phase 3 Criticalの期限設定）→ T204に期限反映済み、TRY-002（timing記録）→ 継続、TRY-003（ログリアルタイム更新）→ Low優先度のため保留
+- **前回ベロシティ**: 平均14.3SP / 消化率100%（3スプリント）
 
 ### バックログ健全度
 
-🟢 **Healthy** — 精緻済みタスク6件・SP 12あり。推奨範囲内。リファインメント不要。
+🟡 **Moderate** — SP 16は推奨上限(13)を超えているが、チーム上限(21)以内。T204(8SP)が大きめだが新規ファイル作成で分割困難。
 
 ---
 
@@ -82,18 +79,21 @@ backlog:
 
 > 依存関係のないタスクを同一Waveでグループ化して並列実行する
 
-### Wave 1: Criticalセキュリティ修正（並列: 3タスク）
-- T201（SP 3）+ T202（SP 2）+ T203（SP 2） = 7SP
-- セキュリティ関連の修正を先に完了させる
+### Wave 1: Critical — アウトライン同期（単独）
+- T204（SP 8）= 8SP
+- 3ファイル新規作成：claude-code-intro.md, mcp-servers.md, skills-agents.md
+- slides-outline.mdとの整合性確認が必要
 
-### Wave 2: P1品質改善（並列: 3タスク）
-- T205（SP 2）+ T207（SP 2）+ T208（SP 1） = 5SP
-- Wave 1完了後に実行（T208のスクリプト統合はT203との整合性確認が必要）
+### Wave 2: High — ドキュメント冒頭強化（並列: 2タスク）
+- T206（SP 5）+ T209（SP 3）= 8SP
+- 両タスクとも全ドキュメントの冒頭セクション追加だが、追加内容が異なるため並列可能
+- T206: Pain Point → Solution形式
+- T209: OS・ツールバージョン・認証設定
 
 **Wave分割の根拠:**
-- Wave 1: P0/Criticalを最優先で確実に完了
-- Wave 2: T208はT203（スクリプト強化）の結果を踏まえて実施する方が安全
-- 各Wave内のタスクは互いに独立
+- Wave 1: T204は新規ファイル作成のため先に完了させる（Wave 2の対象ファイルに含まれる可能性）
+- Wave 2: T206とT209は対象ファイルが重複するが、追加位置（冒頭）と内容が独立しているため並列可能
+- Wave 1の新規ファイルをWave 2の対象に含めることでレビュー修正の網羅性を担保
 
 ---
 
@@ -103,12 +103,9 @@ backlog:
 
 | # | タスクID | 投稿者persona | 結果 | 備考 |
 |---|---------|--------------|------|------|
-| 1 | T201 | | | |
-| 2 | T202 | | | |
-| 3 | T203 | | | |
-| 4 | T205 | | | |
-| 5 | T207 | | | |
-| 6 | T208 | | | |
+| 1 | T204 | | | |
+| 2 | T206 | | | |
+| 3 | T209 | | | |
 
 ### 凡例
 - ✅ member直接: メンバー本人（サブエージェント）がMCP直接投稿成功
@@ -124,7 +121,7 @@ backlog:
 
 ## POの承認
 
-- [x] PO承認済み（「OK」で承認）— 2026-02-27
+- [x] PO承認済み（案1: T204+T206+T209、SP合計16）— 2026-02-27
 
 ---
 

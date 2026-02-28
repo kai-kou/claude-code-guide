@@ -1,9 +1,9 @@
 ---
 try_stock:
-  total: 3
-  pending: 1
-  in_progress: 2
-  completed: 0
+  total: 4
+  pending: 2
+  in_progress: 1
+  completed: 1
   cancelled: 0
   last_stocktake: ""
   next_stocktake_trigger: "20件超過 or 10スプリント経過"
@@ -11,7 +11,7 @@ try_stock:
 
 # Try ストック管理
 
-**最終更新**: 2026-02-27 (SPRINT-003 retro反映)
+**最終更新**: 2026-02-28 (SPRINT-004 retro反映)
 **棚卸しルール**: 10スプリントごと、またはTry蓄積が20件を超えた時点で棚卸しを実施
 
 ---
@@ -20,11 +20,11 @@ try_stock:
 
 | ステータス | 件数 |
 |-----------|------|
-| Pending | 1 |
-| In Progress | 2 |
-| Completed | 0 |
+| Pending | 2 |
+| In Progress | 1 |
+| Completed | 1 |
 | Cancelled | 0 |
-| **合計** | **3** |
+| **合計** | **4** |
 
 ---
 
@@ -35,6 +35,7 @@ try_stock:
 | TRY-ID | 登録日 | ソース | 改善内容 | 対象 | 優先度 | 備考 |
 |--------|--------|--------|---------|------|--------|------|
 | TRY-003 | 2026-02-27 | SPRINT-003 | スプリントログのタスクステータスをリアルタイム更新する | Process | Low | タスク完了時にSPRINT-XXX.mdも同時更新 |
+| TRY-004 | 2026-02-28 | SPRINT-004 | 大型タスク（8SP超）は分割して推奨SP範囲内に収める | Process | Medium | SP16超過の再発防止 |
 
 ### 優先度の定義
 
@@ -52,7 +53,6 @@ try_stock:
 
 | TRY-ID | 登録日 | ソース | 改善内容 | 対象 | 着手スプリント | タスクID |
 |--------|--------|--------|---------|------|--------------|---------|
-| TRY-001 | 2026-02-27 | SPRINT-002 | Phase 3 Criticalタスク（T201〜T204）の期限設定 | Process | SPRINT-002(retro) | T201〜T204 |
 | TRY-002 | 2026-02-27 | SPRINT-002 | timing記録の習慣化（timingセクション更新ルール） | Process | SPRINT-002(retro) | — |
 
 ---
@@ -63,7 +63,7 @@ try_stock:
 
 | TRY-ID | 登録日 | 完了日 | 改善内容 | 対象 | 効果 |
 |--------|--------|--------|---------|------|------|
-| | | | | | |
+| TRY-001 | 2026-02-27 | 2026-02-28 | Phase 3 Criticalタスク（T201〜T204）の期限設定 | Process | T201〜T204全タスクが期限内に完了。期限設定によりPO優先度判断が明確化 |
 
 ---
 

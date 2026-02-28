@@ -4,6 +4,30 @@
 **対象**: Cursor経験者向けClaude Code移行ガイド
 **前提**: Cursorの基本操作（.cursorrules、Composerなど）を理解している
 
+### こんな困りごとありませんか？
+
+- CursorでTab補完は使いこなしているが、大規模なリファクタリングが苦手
+- AIにもっと自律的にタスクを任せたいが、Cursorだと細かく指示が必要
+- Cursorの設定資産（.cursorrules等）があるので、移行コストが心配
+
+### このガイドで解決できます
+
+CursorとClaude Codeは競合ではなく補完関係です。Cursorの素早いコード補完と、Claude Codeの自律的なタスク実行を併用する「タイムリープ戦略」で、両方の長所を活かせます。既存の.cursorrulesはsymlinkで共有できるため、移行コストもほぼゼロです。
+
+| Before | After |
+|--------|-------|
+| Cursorだけで大規模変更 → 手動ステップが多い | Claude Codeに委譲 → 複数ファイル一括変更を自律実行 |
+| .cursorrules → CLAUDE.md の二重管理 | symlink共有で単一ファイル管理 |
+| AIツールを切り替えるたびに文脈を伝え直す | 各ツールの得意分野で使い分け、文脈はCLAUDE.mdで共有 |
+
+### 前提条件
+
+| 項目 | 要件 |
+|------|------|
+| Cursor | インストール済み（.cursorrules運用経験があるとスムーズ） |
+| Claude Code | インストール済み・認証済み |
+| OS | macOS 13.0+ / Windows 10 1809+ / Ubuntu 20.04+ |
+
 ---
 
 ## 1. はじめに — Cursor vs Claude Code: そもそも何が違う？
