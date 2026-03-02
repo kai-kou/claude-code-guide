@@ -1,16 +1,16 @@
 ---
 tasks:
   total: 29
-  completed: 17
+  completed: 20
   in_progress: 0
   blocked: 0
-  overall_progress: 59
+  overall_progress: 69
 ---
 
 # タスク管理
 
 **プロジェクト**: claude-code-guide
-**最終更新**: 2026-02-27 (SPRINT-004 全タスク完了)
+**最終更新**: 2026-03-02 (SPRINT-005 T213完了)
 
 ---
 
@@ -34,17 +34,17 @@ tasks:
 
 ## 進捗サマリー
 
-**全体**: 17/29 タスク完了 (59%)
+**全体**: 20/29 タスク完了 (69%)
 
 ### フェーズ別進捗
 - Phase 1: 4/4 完了 (100%)
 - Phase 2: 5/5 完了 (100%)
-- Phase 3: 8/20 完了 (40%) ← ドキュメントレビュー修正
+- Phase 3: 11/20 完了 (55%) ← ドキュメントレビュー修正
 
 ### 優先度別
 - P0: 8/8 完了
-- P1: 10/11 完了
-- P2: 0/6 完了
+- P1: 11/11 完了
+- P2: 2/6 完了
 - P3: 0/4 完了
 
 ---
@@ -99,15 +99,15 @@ tasks:
 | T207 | [M-07] Plan Mode説明の統一 — vscode-guide.mdをマスター化、cursor-migration.mdから参照 | P1 | 2 | ✅ 完了 | 2026-02-27 | High, What/How, SPRINT-003 |
 | T208 | [M-08] protect-sensitive-files.sh重複削除 — 1箇所に集約、他は参照リンク | P1 | 1 | ✅ 完了 | 2026-02-27 | High, What, SPRINT-003 |
 | T209 | [M-09] 環境前提条件の明記 — 全ドキュメント冒頭にOS・ツールバージョン・認証設定を追加 | P1 | 3 | ✅ 完了 | 2026-02-27 | High, How, SPRINT-004 |
-| T210 | [M-10] AI生成感の払拭 — テーブル50%散文化、個人体験談追加、定型フレーズ削減 | P1 | 8 | ⬜ 未着手 | TBD | High, Humanize |
+| T210 | [M-10] AI生成感の払拭 — テーブル50%散文化、個人体験談追加、定型フレーズ削減 | P1 | 8 | ✅ 完了 | 2026-03-02 | High, Humanize, SPRINT-005 |
 
 ### Phase 3-3: Medium（2週間以内対応）
 
 | ID | タスク | 優先度 | SP | ステータス | 期限 | 備考 |
 |----|--------|--------|----|-----------|------|------|
 | T211 | [M-11] usage-limits-sandbox.mdの3分割 — security-guide.md / context-management.md / usage-limits.md | P2 | 5 | ⬜ 未着手 | TBD | Medium, What |
-| T212 | [M-12] コンテキスト管理フローチャート追加 — /clearと/compactの使い分け判断基準を視覚化 | P2 | 3 | ⬜ 未着手 | TBD | Medium, How |
-| T213 | [M-13] エラーハンドリング追加 — 各ドキュメントにトラブルシューティングセクション追加 | P2 | 3 | ⬜ 未着手 | TBD | Medium, How |
+| T212 | [M-12] コンテキスト管理フローチャート追加 — /clearと/compactの使い分け判断基準を視覚化 | P2 | 3 | ✅ 完了 | 2026-03-02 | Medium, How, SPRINT-005 |
+| T213 | [M-13] エラーハンドリング追加 — 各ドキュメントにトラブルシューティングセクション追加 | P2 | 3 | ✅ 完了 | 2026-03-02 | Medium, How, SPRINT-005 |
 | T214 | [M-14] スライド枚数拡張 — 51枚→65枚に拡張、各セクションの情報密度を適正化 | P2 | 3 | ⬜ 未着手 | TBD | Medium, Readability |
 | T215 | [M-15] FAQ整理 — cursor-migration.mdのQ1〜Q5を残し、Q6〜Q10はfaq-advanced.mdへ | P2 | 2 | ⬜ 未着手 | TBD | Medium, Readability |
 | T216 | [M-16] チーム導入視点の追加 — team-adoption.md新規作成（ROI、習熟コスト、導入ロードマップ） | P2 | 5 | ⬜ 未着手 | TBD | Medium, For Whom |

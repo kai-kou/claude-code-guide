@@ -1,67 +1,88 @@
 ---
 sprint:
-  id: "SPRINT-004"
+  id: "SPRINT-005"
   project: "claude-code-guide"
-  date: "2026-02-27"
+  date: "2026-03-02"
   status: "completed"
+  execution_mode: "sequential"
+  autonomous: false
+  model_tier: "M"
+  planning_delegation: true
+timing:
+  planning_start: "17:26"
+  planning_end: ""
+  execution_start: "17:30"
+  execution_end: "20:50"
+  review_start: "20:50"
+  review_end: "20:55"
+  retro_start: "20:55"
+  retro_end: "20:55"
 backlog:
   total_tasks: 3
-  total_sp: 16
+  total_sp: 14
   completed_tasks: 3
-  completed_sp: 16
+  completed_sp: 14
   sp_completion_rate: 100
+  waves: 0
+backlog_status:
+  layer1_count: 0
+  layer2_count: 11
+  layer2_sp: 43
+  next_sprint_candidates: 3
+  health_level: "healthy"
 ---
 
 # スプリントバックログ
 
-**スプリント**: SPRINT-004
+**スプリント**: SPRINT-005
 **プロジェクト**: claude-code-guide
-**日付**: 2026-02-27
+**日付**: 2026-03-02
 **ステータス**: completed
 
 ---
 
 ## スプリント目標
 
-> M3（ドキュメントレビュー修正完了）の進捗を加速させる。Critical残タスクT204（アウトライン同期・3ファイル新規作成）を完了し、High優先度のT206（「Why」強化）・T209（環境前提条件明記）に着手・完了する。
+> M3（ドキュメントレビュー修正完了）の残タスクを加速消化する。最優先のT210（AI生成感の払拭）を完了し、P2のT212（フローチャート追加）・T213（エラーハンドリング追加）にも着手・完了する。
 
 ---
 
 ## バックログ
 
-| # | タスクID | タスク名 | SP | 優先度 | 担当 | ステータス | 備考 |
-|---|---------|---------|-----|--------|------|-----------|------|
-| 1 | T204 | [M-04] アウトライン同期（claude-code-intro.md, mcp-servers.md, skills-agents.md新規作成） | 8 | P0 | sprint-documenter | ✅ | Critical, What/How |
-| 2 | T206 | [M-06] 「Why」の強化（全ドキュメント冒頭にPain Point→Solution追加） | 5 | P1 | sprint-documenter | ✅ | High, Why |
-| 3 | T209 | [M-09] 環境前提条件の明記（全ドキュメント冒頭にOS・ツールバージョン追加） | 3 | P1 | sprint-documenter | ✅ | High, How |
+| # | タスクID | タスク名 | SP | 優先度 | 担当 | 変更予定ファイル | ステータス | 備考 |
+|---|---------|---------|-----|--------|------|----------------|-----------|------|
+| 1 | T210 | [M-10] AI生成感の払拭（テーブル50%散文化、個人体験談追加、定型フレーズ削減） | 8 | P1 | sprint-documenter | docs/vscode-guide.md, docs/tmux-guide.md, docs/slack-integration.md, docs/cursor-migration.md, docs/usage-limits-sandbox.md, docs/claude-code-intro.md, docs/mcp-servers.md, docs/skills-agents.md | ✅ | High, Humanize |
+| 2 | T212 | [M-12] コンテキスト管理フローチャート追加（/clearと/compactの使い分け判断基準を視覚化） | 3 | P2 | sprint-documenter | docs/usage-limits-sandbox.md | ✅ | Medium, How |
+| 3 | T213 | [M-13] エラーハンドリング追加（各ドキュメントにトラブルシューティングセクション追加） | 3 | P2 | sprint-documenter | docs/vscode-guide.md, docs/tmux-guide.md, docs/slack-integration.md, docs/cursor-migration.md, docs/usage-limits-sandbox.md | ✅ | Medium, How |
 
 ### SP集計
 
 | 項目 | 値 |
 |------|-----|
-| 計画SP合計 | 16 |
-| 完了SP合計 | 16 |
+| 計画SP合計 | 14 |
+| 完了SP合計 | 14 |
 | SP消化率 | 100% |
 | タスク数 | 3 / 3 |
+| 実行モード | 逐次 |
 
-### 粒度チェック
+### 粒度チェック（逐次モード）
 
-- [x] SP合計 ≤ 21（推奨: 5〜13）— ⚠️ 16SPで推奨上限超だが上限21以内
-- [x] タスク数 ≤ 10（推奨: 3〜7）— ✅ 3件で推奨範囲内
-- [x] 推定所要時間 ≤ 4時間（推奨: 15分〜2時間）— ⚠️ T204が大きめ、2〜3時間推定
+- [x] SP合計 ≤ 21（推奨: 5〜13）— ⚠️ 14SPで推奨上限(13)を1SP超過。ベロシティ実績(14.7)的には適正
+- [x] タスク数 ≤ 10（推奨: 3〜7）— ✅ 3件で推奨範囲の下限
+- [x] 推定所要時間 ≤ 4時間（推奨: 15分〜2時間）— ⚠️ T210が大きめ、1.5〜2時間推定
 
 ---
 
 ## 入力元
 
-- **milestones.md**: M3（ドキュメントレビュー修正完了）— 進行中
-- **tasks.md**: Phase 3 タスク T204（P0）+ T206, T209（P1）を抽出
-- **前回Try**: TRY-001（Phase 3 Criticalの期限設定）→ T204に期限反映済み、TRY-002（timing記録）→ 継続、TRY-003（ログリアルタイム更新）→ Low優先度のため保留
-- **前回ベロシティ**: 平均14.3SP / 消化率100%（3スプリント）
+- **milestones.md**: M3（ドキュメントレビュー修正完了）— 進行中（30%）
+- **tasks.md**: Phase 3 タスク T210（P1）+ T212, T213（P2）を抽出
+- **前回Try**: TRY-004（大型タスク分割）→ T210は8SPで上限以内のため今回は分割不要と判断。TRY-003（ログリアルタイム更新）→ Low優先度のため保留継続
+- **前回ベロシティ**: 平均14.7SP / 消化率100%（3スプリント）
 
 ### バックログ健全度
 
-🟡 **Moderate** — SP 16は推奨上限(13)を超えているが、チーム上限(21)以内。T204(8SP)が大きめだが新規ファイル作成で分割困難。
+🟢 **Healthy** — 精緻済み未着手11タスク/43SPあり。次スプリント以降も十分なタスクストック。product-backlog.mdの未精緻アイテムは0件。
 
 ---
 
@@ -75,25 +96,9 @@ backlog:
 
 ---
 
-## Wave構成（並列実行計画）
+## Wave構成
 
-> 依存関係のないタスクを同一Waveでグループ化して並列実行する
-
-### Wave 1: Critical — アウトライン同期（単独）
-- T204（SP 8）= 8SP
-- 3ファイル新規作成：claude-code-intro.md, mcp-servers.md, skills-agents.md
-- slides-outline.mdとの整合性確認が必要
-
-### Wave 2: High — ドキュメント冒頭強化（並列: 2タスク）
-- T206（SP 5）+ T209（SP 3）= 8SP
-- 両タスクとも全ドキュメントの冒頭セクション追加だが、追加内容が異なるため並列可能
-- T206: Pain Point → Solution形式
-- T209: OS・ツールバージョン・認証設定
-
-**Wave分割の根拠:**
-- Wave 1: T204は新規ファイル作成のため先に完了させる（Wave 2の対象ファイルに含まれる可能性）
-- Wave 2: T206とT209は対象ファイルが重複するが、追加位置（冒頭）と内容が独立しているため並列可能
-- Wave 1の新規ファイルをWave 2の対象に含めることでレビュー修正の網羅性を担保
+逐次実行（Wave不使用）。T210 → T212 → T213 の順で実行する。
 
 ---
 
@@ -103,34 +108,46 @@ backlog:
 
 | # | タスクID | 投稿者persona | 結果 | 備考 |
 |---|---------|--------------|------|------|
-| 1 | T204 | | | |
-| 2 | T206 | | | |
-| 3 | T209 | | | |
-
-### 凡例
-- ✅ member直接: メンバー本人（サブエージェント）がMCP直接投稿成功
-- ✅ master委任: sprint-masterが代理投稿成功（Claude Code環境・並列実行時）
-- ✅ master直接: sprint-masterが直接投稿成功（Claude Code環境・逐次実行時）
-- ❌ member直接: メンバーのMCP投稿失敗
-- ❌ master委任: sprint-masterの代理投稿失敗
-- ❌ master直接: sprint-masterの直接投稿失敗
-- ⏭️ persona未設定: persona/{member-name}.md が存在せずスキップ
-- ⏭️ MCPツール利用不可: slack_post_message MCPツールが利用不可でスキップ
+| 1 | T210 | | | |
+| 2 | T212 | | | |
+| 3 | T213 | | | |
 
 ---
 
 ## POの承認
 
-- [x] PO承認済み（案1: T204+T206+T209、SP合計16）— 2026-02-27
+- [x] PO承認済み（2026-03-02 17:30）
 
 ---
 
-## 使い方
+## プランニング判断根拠
 
-1. プランニング開始時にこのテンプレートをコピーして `.sprint-logs/` 配下に配置
-2. milestones.md / tasks.md からタスクを抽出し、バックログテーブルに記入
-3. SP基準に従って各タスクのSPを見積もり
-4. 粒度チェックを確認
-5. POに提示して承認を得る
-6. 承認後、ステータスを `in_progress` に変更してタスク実行を開始
-7. タスク完了のたびにバックログテーブルのステータスを更新し、SP集計を再計算
+### タスク選定理由
+
+- **T210（P1, 8SP）**: P1最後の未着手タスク。「AI生成感の払拭」は文体・表現の質に関わる最重要課題。M3完了の必須条件
+- **T212（P2, 3SP）**: コンテキスト管理はガイドの実用性を高める重要テーマ。フローチャート追加でユーザー理解が向上
+- **T213（P2, 3SP）**: エラーハンドリング追加は実際の利用シーンでの問題解決に直結。複数ドキュメントに横断適用
+
+### 除外タスク
+
+| タスクID | 除外理由 |
+|---------|---------|
+| T211 | SP5の中規模タスク。T210に集中したいため次スプリント以降 |
+| T214 | スライド枚数拡張（SP3）。文書内容修正完了後が適切 |
+| T215 | FAQ整理（SP2）。T211の3分割後に実施が自然 |
+| T216 | チーム導入視点（SP5）。コア文書の品質向上を先行 |
+| T217〜T220 | P3（Low）。M3のP1/P2完了後に検討 |
+
+### Try取り込み判断
+
+- TRY-003（スプリントログリアルタイム更新、Low）: 今回もスキップ。プロセス改善より成果物品質を優先
+- TRY-004（大型タスク分割、Medium）: T210は8SPで上限(13)以内のため分割不要。TRY-004の適用条件（8SP超）を満たさない
+
+### 自己批判結果
+
+- Q1（計画の欠点）: タスク数3件は推奨最低限。T210の8SPが重くセッション後半に疲弊リスクあり
+- Q2（依存関係見落とし）: T212はT211（usage-limits-sandbox.md分割）の後に実施するのが理想。今回はT211なしで既存ファイルに追記するアプローチで対応
+- Q3（SP楽観性）: T210の8SPは妥当。全ドキュメント8ファイルの文体統一は相応の作業量
+- Q4（目標達成可能性）: ベロシティ実績14.7SP・消化率100%から、14SPは十分実現可能
+- Q5（メンバー視点の懸念）: sprint-documenterにとってT210は最も創造性が求められる。定型的な追加より判断が多いため丁寧な実行が必要
+- リスク事項: T210で全ドキュメントを横断修正するため、各ドキュメントの個別事情（対象読者・トーン）を反映した散文化が求められる

@@ -3,7 +3,7 @@ milestones:
   total: 3
   completed: 2
   in_progress: 1
-  overall_progress: 67
+  overall_progress: 72
 ---
 
 # マイルストーン管理
