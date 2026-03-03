@@ -45,7 +45,9 @@ claude-code-guide/
 │   ├── tmux-guide.md       # tmux活用ガイド
 │   ├── slack-integration.md # Slack連携ガイド
 │   ├── cursor-migration.md # Cursorからの移行ガイド
-│   ├── usage-limits-sandbox.md # 利用制限・サンドボックス
+│   ├── security-guide.md    # 権限とセキュリティガイド
+│   ├── context-management.md # コンテキスト管理ガイド
+│   ├── usage-limits.md      # 利用制限ガイド
 │   └── research/           # リサーチ成果物
 └── assets/                 # 画像・素材
 ```

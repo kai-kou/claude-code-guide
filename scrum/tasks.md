@@ -1,16 +1,16 @@
 ---
 tasks:
   total: 29
-  completed: 20
+  completed: 27
   in_progress: 0
   blocked: 0
-  overall_progress: 69
+  overall_progress: 93
 ---
 
 # タスク管理
 
 **プロジェクト**: claude-code-guide
-**最終更新**: 2026-03-02 (SPRINT-005 T213完了)
+**最終更新**: 2026-03-03 (SPRINT-006 T220完了)
 
 ---
 
@@ -34,18 +34,18 @@ tasks:
 
 ## 進捗サマリー
 
-**全体**: 20/29 タスク完了 (69%)
+**全体**: 27/29 タスク完了 (93%)
 
 ### フェーズ別進捗
 - Phase 1: 4/4 完了 (100%)
 - Phase 2: 5/5 完了 (100%)
-- Phase 3: 11/20 完了 (55%) ← ドキュメントレビュー修正
+- Phase 3: 18/20 完了 (90%) ← ドキュメントレビュー修正
 
 ### 優先度別
 - P0: 8/8 完了
 - P1: 11/11 完了
-- P2: 2/6 完了
-- P3: 0/4 完了
+- P2: 5/6 完了
+- P3: 3/4 完了
 
 ---
 
@@ -105,21 +105,21 @@ tasks:
 
 | ID | タスク | 優先度 | SP | ステータス | 期限 | 備考 |
 |----|--------|--------|----|-----------|------|------|
-| T211 | [M-11] usage-limits-sandbox.mdの3分割 — security-guide.md / context-management.md / usage-limits.md | P2 | 5 | ⬜ 未着手 | TBD | Medium, What |
+| T211 | [M-11] usage-limits-sandbox.mdの3分割 — security-guide.md / context-management.md / usage-limits.md | P2 | 5 | ✅ 完了 | 2026-03-03 | Medium, What, SPRINT-006 |
 | T212 | [M-12] コンテキスト管理フローチャート追加 — /clearと/compactの使い分け判断基準を視覚化 | P2 | 3 | ✅ 完了 | 2026-03-02 | Medium, How, SPRINT-005 |
 | T213 | [M-13] エラーハンドリング追加 — 各ドキュメントにトラブルシューティングセクション追加 | P2 | 3 | ✅ 完了 | 2026-03-02 | Medium, How, SPRINT-005 |
-| T214 | [M-14] スライド枚数拡張 — 51枚→65枚に拡張、各セクションの情報密度を適正化 | P2 | 3 | ⬜ 未着手 | TBD | Medium, Readability |
-| T215 | [M-15] FAQ整理 — cursor-migration.mdのQ1〜Q5を残し、Q6〜Q10はfaq-advanced.mdへ | P2 | 2 | ⬜ 未着手 | TBD | Medium, Readability |
-| T216 | [M-16] チーム導入視点の追加 — team-adoption.md新規作成（ROI、習熟コスト、導入ロードマップ） | P2 | 5 | ⬜ 未着手 | TBD | Medium, For Whom |
+| T214 | [M-14] スライド枚数拡張 — 51枚→63枚に拡張、各セクションの情報密度を適正化 | P2 | 3 | ✅ 完了 | 2026-03-03 | Medium, Readability, SPRINT-006 |
+| T215 | [M-15] FAQ整理 — cursor-migration.mdのQ1〜Q5を残し、Q6〜Q10はfaq-advanced.mdへ | P2 | 2 | ✅ 完了 | 2026-03-03 | Medium, Readability, SPRINT-006 |
+| T216 | [M-16] チーム導入視点の追加 — team-adoption.md新規作成（ROI、習熟コスト、導入ロードマップ） | P2 | 5 | ✅ 完了 | 2026-03-03 | Medium, For Whom, SPRINT-006 |
 
 ### Phase 3-4: Low（検討・後日対応）
 
 | ID | タスク | 優先度 | SP | ステータス | 期限 | 備考 |
 |----|--------|--------|----|-----------|------|------|
 | T217 | [M-17] 画像・図解の作成 — スクリーンショット・フローチャート作成 | P3 | 8 | ⬜ 未着手 | TBD | Low, Readability |
-| T218 | [M-18] Usage APIバージョン明記 — APIバージョンとエンドポイント追記 | P3 | 1 | ⬜ 未着手 | TBD | Low, How |
-| T219 | [M-19] Hooksの無限ループ防止 — 再帰防止フラグ実装例追加 | P3 | 2 | ⬜ 未着手 | TBD | Low, Risk |
-| T220 | [M-20] tmuxセッション管理TIPS — セッション数上限設定・クリーンアップ追加 | P3 | 1 | ⬜ 未着手 | TBD | Low, How |
+| T218 | [M-18] Usage APIバージョン明記 — APIバージョンとエンドポイント追記 | P3 | 1 | ✅ 完了 | 2026-03-03 | Low, How, SPRINT-006 |
+| T219 | [M-19] Hooksの無限ループ防止 — 再帰防止フラグ実装例追加 | P3 | 2 | ✅ 完了 | 2026-03-03 | Low, Risk, SPRINT-006 |
+| T220 | [M-20] tmuxセッション管理TIPS — セッション数上限設定・クリーンアップ追加 | P3 | 1 | ✅ 完了 | 2026-03-03 | Low, How, SPRINT-006 |
 
 ---
 

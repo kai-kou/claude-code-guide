@@ -474,7 +474,7 @@ fi
 
 Slack連携で `SLACK_TOKEN` を扱う場合、機密情報の保護が特に重要です。Section 3-6で紹介したmacOS Keychainでのトークン管理に加えて、**settings.jsonのDenyリスト**と**Hookスクリプト**による二段構えの保護を設定しましょう。
 
-> 機密ファイル保護の詳細な設定方法（settings.json Denyリスト、protect-sensitive-files.shスクリプトの実装例、ブロック対象パターン一覧）については、[利用制限とサンドボックスガイド Section 4](./usage-limits-sandbox.md#4-機密ファイル保護) を参照してください。
+> 機密ファイル保護の詳細な設定方法（settings.json Denyリスト、protect-sensitive-files.shスクリプトの実装例、ブロック対象パターン一覧）については、[権限とセキュリティガイド Section 4](./security-guide.md#4-機密ファイル保護) を参照してください。
 
 **Slack連携で特に注意すべき機密ファイル:**
 
@@ -617,7 +617,64 @@ chmod +x ~/.claude/hooks/my-hook.sh
 bash ~/.claude/hooks/my-hook.sh "Edit" "/path/to/file.md"
 ```
 
-### 9-5. よくある問題と対処法
+### 9-5. 再帰（無限ループ）防止
+
+HookがClaude Codeのツール呼び出しをトリガーし、そのツール呼び出しが再びHookをトリガーする...という無限ループが発生するケースがあります。たとえば、PostToolUseのEditイベントでLintを実行し、そのLint結果に基づいてClaude Codeが再度Editを行うと、ループが始まります。
+
+**再帰防止フラグの実装例**:
+
+```bash
+#!/bin/bash
+# post-edit-lint-safe.sh — 再帰防止フラグ付きLintチェック
+set -euo pipefail
+
+LOCK_FILE="/tmp/claude-hook-lint.lock"
+
+# 再帰検出: ロックファイルが存在すればスキップ
+if [ -f "$LOCK_FILE" ]; then
+  exit 0
+fi
+
+# ロックファイルを作成（最大60秒で自動削除）
+touch "$LOCK_FILE"
+trap 'rm -f "$LOCK_FILE"' EXIT
+
+# --- ここにLint処理を記述 ---
+INPUT=$(cat)
+FILE_PATH=$(echo "$INPUT" | jq -r '.tool_input.file_path // empty')
+
+if [ -z "$FILE_PATH" ]; then
+  exit 0
+fi
+
+case "$FILE_PATH" in
+  *.sh) shellcheck "$FILE_PATH" 2>&1 || true ;;
+  *.json) jq empty "$FILE_PATH" 2>&1 || true ;;
+  *.yaml|*.yml) yamllint "$FILE_PATH" 2>&1 || true ;;
+esac
+```
+
+**ポイント**:
+- `/tmp/claude-hook-lint.lock` の存在で再帰を検出し、即座に`exit 0`でスキップ
+- `trap` でスクリプト終了時にロックファイルを必ず削除
+- 万が一trapが効かなくても、60秒のttlで自動クリーンアップ（cronやtmpwatchを活用）
+
+**環境変数による再帰防止（別のアプローチ）**:
+
+```bash
+#!/bin/bash
+# 環境変数で再帰を検出するパターン
+if [ "${CLAUDE_HOOK_RUNNING:-}" = "1" ]; then
+  exit 0
+fi
+export CLAUDE_HOOK_RUNNING=1
+
+# --- 処理本体 ---
+```
+
+> **注意**: 環境変数方式は、Hookが子プロセスとして実行される場合に親プロセスの環境変数を引き継がない場合があります。ロックファイル方式の方が確実です。
+
+### 9-6. よくある問題と対処法
 
 | 問題 | 原因 | 対処法 |
 |------|------|--------|
@@ -625,6 +682,7 @@ bash ~/.claude/hooks/my-hook.sh "Edit" "/path/to/file.md"
 | パスが通らない | 相対パスを使用 | 絶対パス (`~/.claude/...`) を使用 |
 | 環境変数が取れない | シェル環境が異なる | スクリプト内で `source ~/.zshrc` |
 | タイムアウト | 処理が長すぎる | バックグラウンド実行 (`&`) を検討 |
+| 無限ループ | Hook→ツール呼出→Hook | ロックファイルで再帰防止（Section 9-5参照） |
 
 ---
 

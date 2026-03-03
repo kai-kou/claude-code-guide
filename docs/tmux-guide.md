@@ -332,6 +332,53 @@ ct "バグ修正"
 
 `ct --list`で両セッションが確認でき、`tmux attach -t claude-143052`で個別にアタッチ可能です。
 
+### 5. セッション管理とクリーンアップ
+
+tmuxセッションは明示的に終了しないと残り続けます。複数プロジェクトを並行作業していると、使い終わったセッションが溜まってリソースを消費します。
+
+**セッション上限の目安**:
+- 同時にアクティブなセッションは**3〜5個**が実用的な上限
+- それ以上になると、どのセッションが何のタスクか把握しにくくなる
+- 各セッションのClaude Codeプロセスがメモリを消費するため、マシンスペックに応じて調整
+
+**不要なセッション一括削除**:
+```bash
+# 全セッション一覧を確認
+tmux ls
+
+# 特定セッションを終了
+tmux kill-session -t claude-143052
+
+# claude-プレフィックスの全セッションを終了
+tmux ls -F '#{session_name}' | grep '^claude-' | xargs -I{} tmux kill-session -t {}
+```
+
+**自動クリーンアップスクリプト（~/.claude/hooks/cleanup-tmux-sessions.sh）**:
+```bash
+#!/bin/bash
+# 24時間以上アイドル状態のClaude Codeセッションを自動終了
+set -euo pipefail
+
+MAX_IDLE_SECONDS=86400  # 24時間
+
+tmux ls -F '#{session_name} #{session_activity}' 2>/dev/null | while read -r NAME ACTIVITY; do
+  case "$NAME" in
+    claude-*)
+      IDLE=$(( $(date +%s) - ACTIVITY ))
+      if [ "$IDLE" -gt "$MAX_IDLE_SECONDS" ]; then
+        tmux kill-session -t "$NAME"
+        echo "Cleaned up idle session: $NAME (idle ${IDLE}s)"
+      fi
+      ;;
+  esac
+done
+```
+
+**ポイント**:
+- タスク完了後は `tmux kill-session` で明示的にセッションを終了する習慣をつける
+- `ct --list` で定期的にセッション一覧を確認する
+- 長期間放置されたセッションはクリーンアップスクリプトで自動回収
+
 ---
 
 ## トラブルシューティング

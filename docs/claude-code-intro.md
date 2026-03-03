@@ -197,9 +197,9 @@ Claude Codeには多くの機能がありますが、以下の順序で学んで
 | 順序 | 機能 | 難易度 | ガイド |
 |------|------|--------|--------|
 | 1 | CLAUDE.md（AIへの指示書） | 初級 | docs/vscode-guide.md Section 3 |
-| 2 | 権限設定（settings.json） | 初級 | docs/usage-limits-sandbox.md |
+| 2 | 権限設定（settings.json） | 初級 | docs/security-guide.md |
 | 3 | VSCode / tmux での利用 | 初級 | docs/vscode-guide.md, docs/tmux-guide.md |
-| 4 | コンテキスト管理 | 中級 | docs/usage-limits-sandbox.md |
+| 4 | コンテキスト管理 | 中級 | docs/context-management.md |
 | 5 | Hooks（自動化） | 中級 | docs/slack-integration.md |
 | 6 | MCP サーバー連携 | 中級 | docs/mcp-servers.md |
 | 7 | カスタムスキル・エージェント | 上級 | docs/skills-agents.md |

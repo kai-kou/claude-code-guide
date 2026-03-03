@@ -464,47 +464,7 @@ claude
 
 **A**: Claude Codeは**ファイルパスを直接指定**する必要があります。`Cmd+V` で貼り付けた画像は `/tmp/claude/paste-*.png` に保存されるので、そのパスを指定するか、プロジェクト内に明示的にコピーしてください。
 
-### Q6. Cursorで使っていた拡張機能がClaude Codeで使えない
-
-**A**: Claude Codeは**MCPサーバー**で外部ツール連携します。以下が可能です:
-- GitHub（Issue・PR管理）
-- Slack（通知・コマンド実行）
-- Notion（ドキュメント参照）
-- Sentry（エラー解析）
-
-詳しくは「Section 9: MCP サーバー連携」を参照してください。
-
-### Q7. Cursorのキーボードショートカットに慣れている
-
-**A**: VSCode拡張を使えば、以下のショートカットが使えます:
-- `Ctrl+Esc`: Claude Code チャット起動
-- `Ctrl+G`: Plan編集（Plan Mode時）
-- `/コマンド`: スキル呼び出し
-
-### Q8. コンテキストウィンドウがすぐ満杯になる
-
-**A**: 以下を実践してください:
-1. **タスク完了ごとに `/clear`** — 最も重要
-2. **大きなファイルは部分読み** — `Read /path/to/file.ts --lines 1-50`
-3. **CLAUDE.mdを簡潔に** — 300行以内
-4. **`/compact`で選択的圧縮** — `/compact Keep API changes only`
-
-### Q9. Cursorの「Apply All」のような一括適用はある？
-
-**A**: Claude Codeは**Edit tool**で自動的にファイルを編集します。確認せずに適用されるため、**settings.jsonでdefaultMode: "ask"**にすることで、変更前に確認可能です。
-
-### Q10. Cursorのプロジェクト間移動が便利だったが、Claude Codeは？
-
-**A**: **tmux + ctコマンド**の活用を推奨します:
-```bash
-# プロジェクトAでClaude Code起動
-ct project-a
-
-# 別ペインでプロジェクトBを起動（Agent Teams対応）
-ct project-b
-```
-
-詳しくは「tmux活用ガイド」を参照してください。
+> **応用FAQ（Q6〜Q10）**: 拡張機能の代替、キーボードショートカット、コンテキスト管理、一括適用、プロジェクト間移動については [応用FAQ](./faq-advanced.md) を参照してください。
 
 ---
 

@@ -3,7 +3,7 @@
 **作成日**: 2026-02-26
 **対象**: Claude Code初心者〜中級者
 **形式**: Googleスライド
-**想定枚数**: 40〜50枚
+**想定枚数**: 60〜65枚
 
 ---
 
@@ -28,17 +28,18 @@
 
 ---
 
-### Section 1: Claude Code とは（3枚）
+### Section 1: Claude Code とは（4枚）
 
 | # | タイトル | 内容 |
 |---|---------|------|
 | 1-1 | Claude Code とは | CLI型AIコーディングアシスタント。ターミナルで動作、コードベースを理解して実装する |
-| 1-2 | Cursorとの違い | GUI vs CLI、エージェント性の違い、得意分野の比較 |
-| 1-3 | 対応モデル | Opus 4.6, Sonnet 4.5, Haiku 4.5。モデル選択のポイント |
+| 1-2 | Claude Code ができること | コード生成・リファクタリング・テスト・Git操作・ファイル検索・Web検索。具体例で紹介 |
+| 1-3 | Cursorとの違い | GUI vs CLI、エージェント性の違い、得意分野の比較 |
+| 1-4 | 対応モデル | Opus 4.6, Sonnet 4.5, Haiku 4.5。モデル選択のポイント |
 
 ---
 
-### Section 2: セットアップ（4枚）
+### Section 2: セットアップ（5枚）
 
 | # | タイトル | 内容 |
 |---|---------|------|
@@ -46,65 +47,73 @@
 | 2-2 | VSCodeで使う | Claude Code Extension、セカンダリサイドバーへの配置 |
 | 2-3 | tmuxで使う | ctコマンド（claude-tmux.sh）の導入、Agent Teams対応 |
 | 2-4 | 初回起動と/init | claude コマンド起動、/initでCLAUDE.md自動生成、基本的な対話の流れ |
+| 2-5 | セットアップチェックリスト | node/npm確認→install→認証→VSCode拡張→初回起動。完了確認ポイント |
 
 ---
 
-### Section 3: CLAUDE.md — AIへの指示書（5枚）
+### Section 3: CLAUDE.md — AIへの指示書（6枚）
 
 | # | タイトル | 内容 |
 |---|---------|------|
 | 3-1 | CLAUDE.mdとは | AIエージェントへの永続的な指示書、.cursorrules相当 |
 | 3-2 | 3層構造 | グローバル(~/.claude/)→ワークスペース→プロジェクト、自動マージ |
 | 3-3 | 書き方のコツ | 300行以内、150〜200指示が限界。「削除すると間違うか？」テスト。@importで分割 |
-| 3-4 | 実例: Bashルール | シェル演算子禁止の例（allow listとの連携） |
-| 3-5 | Cursor共存 | .cursorrules → CLAUDE.md symlink、setup-coexistence.sh |
+| 3-4 | CLAUDE.mdテンプレート | すぐ使えるスターターテンプレート例。プロジェクト概要・ルール・ディレクトリ構造 |
+| 3-5 | 実例: Bashルール | シェル演算子禁止の例（allow listとの連携） |
+| 3-6 | Cursor共存 | .cursorrules → CLAUDE.md symlink、setup-coexistence.sh |
 
 ---
 
-### Section 4: 権限とセキュリティ（5枚）
+### Section 4: 権限とセキュリティ（7枚）
 
 | # | タイトル | 内容 |
 |---|---------|------|
 | 4-1 | 権限モード | defaultMode: ask/auto/delegate/plan の違い |
 | 4-2 | Allow/Deny リスト | settings.json のパターンマッチ、よく使う設定例 |
-| 4-3 | サンドボックス | sandbox設定、autoAllowBashIfSandboxed |
-| 4-4 | --dangerously-skip-permissions | ctコマンドでの自動付与、使い所と注意点 |
-| 4-5 | 機密ファイル保護 | protect-sensitive-files.sh hookの仕組み |
+| 4-3 | シェル演算子の落とし穴 | &&, |, > を含むコマンドはパターンマッチ不可。対策と回避法 |
+| 4-4 | サンドボックス | sandbox設定、autoAllowBashIfSandboxed |
+| 4-5 | --dangerously-skip-permissions | ctコマンドでの自動付与、使い所と注意点 |
+| 4-6 | 機密ファイル保護 | protect-sensitive-files.sh hookの仕組み、二段構え戦略 |
+| 4-7 | セキュリティ設定チェックリスト | Denyリスト→サンドボックス→Hook→機密保護の確認一覧 |
 
 ---
 
-### Section 5: Hooks — 自動化の要（6枚）
+### Section 5: Hooks — 自動化の要（7枚）
 
 | # | タイトル | 内容 |
 |---|---------|------|
 | 5-1 | Hooksとは | イベント駆動のスクリプト実行、settings.jsonでの設定方法 |
 | 5-2 | イベント一覧（全14種） | PreToolUse, PostToolUse, Stop, Notification, SessionStart等。command型 + prompt型（LLM評価） |
-| 5-3 | 実例: Slack連携 | slack-feedback.sh — タスク完了→Slack投稿→リアクション駆動フィードバック |
-| 5-4 | 実例: Lint自動チェック | post-edit-lint.sh — 編集後にYAML/Shell/JSON構文チェック |
-| 5-5 | 実例: Push前チェック | pre-push-check.sh — git push検出→リスク表示→確認要求 |
-| 5-6 | 実例: コンテキスト再注入 | compact-reinject.sh — コンパクション後の情報復元 |
+| 5-3 | Hook設定の書き方 | matcher, command, timeout の具体例。settings.jsonの構造 |
+| 5-4 | 実例: Slack連携 | slack-feedback.sh — タスク完了→Slack投稿→リアクション駆動フィードバック |
+| 5-5 | 実例: Lint自動チェック | post-edit-lint.sh — 編集後にYAML/Shell/JSON構文チェック |
+| 5-6 | 実例: Push前チェック | pre-push-check.sh — git push検出→リスク表示→確認要求 |
+| 5-7 | 実例: コンテキスト再注入 | compact-reinject.sh — コンパクション後の情報復元 |
 
 ---
 
-### Section 6: コンテキストウィンドウ管理（4枚）
+### Section 6: コンテキストウィンドウ管理（6枚）
 
 | # | タイトル | 内容 |
 |---|---------|------|
 | 6-1 | コンテキストの仕組み | トークン制限、キャッシュ（Write/Read）、セッション累計 |
-| 6-2 | 使用状況の確認 | ステータスラインの読み方（4行ダッシュボード） |
-| 6-3 | /compact の活用 | コンパクション時のコンテキスト圧縮、情報ロスへの対策 |
-| 6-4 | ベストプラクティス | 長いファイルは部分読み、大きなタスクは分割、定期的にcompact |
+| 6-2 | キャッシュの仕組み図解 | Cache Write vs Cache Read、5分間有効期限、90%割引の効果 |
+| 6-3 | 使用状況の確認 | ステータスラインの読み方（4行ダッシュボード） |
+| 6-4 | /compact の活用 | コンパクション時のコンテキスト圧縮、情報ロスへの対策 |
+| 6-5 | /clear vs /compact フローチャート | タスク完了→/clear、途中→/compact。判断基準の決定木 |
+| 6-6 | ベストプラクティス | 長いファイルは部分読み、大きなタスクは分割、定期的にcompact |
 
 ---
 
-### Section 7: 利用制限の把握と対策（4枚）
+### Section 7: 利用制限の把握と対策（5枚）
 
 | # | タイトル | 内容 |
 |---|---------|------|
 | 7-1 | 制限の種類 | 5時間サイクル制限、7日間制限、モデル別制限（Sonnet/Opus） |
-| 7-2 | 確認方法 | ステータスライン（⚡📅🎵🎹）、Usage API |
+| 7-2 | プラン別制限と確認方法 | Pro/Max 5x/Max 20xの比較、ステータスライン（⚡📅🎵🎹）、Usage API |
 | 7-3 | 最適化のコツ | キャッシュヒット率を上げる、不要なRead減らす、Haiku活用 |
 | 7-4 | 制限到達時の対応 | モデル切替（/model）、制限リセット待ち、セッション分割 |
+| 7-5 | 1日の使い方モデルケース | 午前Opus→午後Sonnet→制限到達Haiku。セッション分割の実例 |
 
 ---
 
@@ -118,13 +127,14 @@
 
 ---
 
-### Section 9: MCP サーバー連携（3枚）
+### Section 9: MCP サーバー連携（4枚）
 
 | # | タイトル | 内容 |
 |---|---------|------|
 | 9-1 | MCPとは | Model Context Protocol、外部ツール連携の標準プロトコル |
 | 9-2 | 設定方法 | claude mcp addコマンド、3スコープ（local/project/user）、OAuth 2.0認証 |
-| 9-3 | おすすめMCPサーバー | Slack, GitHub, Sentry, Notion, Playwright, Context7。@メンション参照 |
+| 9-3 | 設定例: Slack MCP | slack-fast-mcpの導入手順、Bot Token取得、チャンネル投稿の実例 |
+| 9-4 | おすすめMCPサーバー | GitHub, Sentry, Notion, Playwright, Context7。@メンション参照 |
 
 ---
 
@@ -139,13 +149,14 @@
 
 ---
 
-### Section 11: Cursorからの移行（3枚）
+### Section 11: Cursorからの移行（4枚）
 
 | # | タイトル | 内容 |
 |---|---------|------|
 | 11-1 | 移行のポイント | .cursorrules → CLAUDE.md、.cursor/rules → .claude/rules |
 | 11-2 | タイムリープ戦略 | Cursorで足りないところをClaude Codeで補完する使い分け |
 | 11-3 | 画像の扱い | Read toolで画像を直接参照、ペーストキャッシュ |
+| 11-4 | 移行チェックリスト | 設定ファイル移行→動作確認→ワークフロー調整。段階的移行のステップ |
 
 ---
 
@@ -158,13 +169,14 @@
 
 ---
 
-### Section 13: まとめ（2枚）
+### Section 13: まとめ（4枚）
 
 | # | タイトル | 内容 |
 |---|---------|------|
 | 13-1 | 推奨学習順序 | 1.CLAUDE.md → 2.権限設定 → 3.コンテキスト管理 → 4.Hooks → 5.MCP → 6.Agent Teams |
 | 13-2 | ベストプラクティス10選 | Plan Mode活用、/clear頻繁使用、検証基準明示、1コマンド1Bash等 |
-| 13-3 | 参考リンク | 公式ドキュメント、コミュニティリソース |
+| 13-3 | よくある質問（FAQ） | 制限は厳しい？チームで使える？セキュリティは？無料で使える？ |
+| 13-4 | 参考リンク | 公式ドキュメント、コミュニティリソース |
 
 ---
 
@@ -173,20 +185,20 @@
 | セクション | 枚数 |
 |-----------|------|
 | 0: 表紙・イントロ | 2 |
-| 1: Claude Codeとは | 3 |
-| 2: セットアップ | 4 |
-| 3: CLAUDE.md | 5 |
-| 4: 権限とセキュリティ | 5 |
-| 5: Hooks | 6 |
-| 6: コンテキスト管理 | 4 |
-| 7: 利用制限 | 4 |
+| 1: Claude Codeとは | 4 |
+| 2: セットアップ | 5 |
+| 3: CLAUDE.md | 6 |
+| 4: 権限とセキュリティ | 7 |
+| 5: Hooks | 7 |
+| 6: コンテキスト管理 | 6 |
+| 7: 利用制限 | 5 |
 | 8: ステータスライン | 3 |
-| 9: MCP | 3 |
+| 9: MCP | 4 |
 | 10: スキル&エージェント | 4 |
-| 11: Cursor移行 | 3 |
+| 11: Cursor移行 | 4 |
 | 12: 通知システム | 2 |
-| 13: まとめ | 3 |
-| **合計** | **51** |
+| 13: まとめ | 4 |
+| **合計** | **63** |
 
 ---
 
