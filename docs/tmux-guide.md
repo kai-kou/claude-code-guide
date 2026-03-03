@@ -428,16 +428,12 @@ Agent Teamsを起動してもペインが分割されない場合、まず環境
 
 ## まとめ
 
+tmux + Claude Codeの組み合わせが真価を発揮するのは「席を離れたい」ときです。`ct`コマンドでセッションを立ち上げ、長時間のリファクタリングを任せてデタッチし、昼食から戻ったらアタッチして結果を確認する。この流れに慣れると、PCの前に張り付いてAIの出力を見守る必要がなくなります。
+
+Agent TeamsのSplit Panesモードを使えば、リードエージェント・コーダー・テスターがそれぞれ独立したペインで動作するのをリアルタイムで眺められます。`--dangerously-skip-permissions`はサンドボックスとDenyリストの併用を前提に使ってください。まずは`ct`コマンドの基本操作から試して、慣れてきたらAgent TeamsやセッションのカスタマイズにStep Upしていくのがおすすめです。
+
 ### 参考リンク
 
 - [Claude Code公式 - CLI使用方法](https://docs.anthropic.com/en/docs/claude-code/cli-usage)
 - [Agent Teams公式ドキュメント](https://docs.anthropic.com/en/docs/claude-code/agent-teams)
 - [tmux公式Wiki](https://github.com/tmux/tmux/wiki)
-
----
-
-## まとめ
-
-tmux + Claude Codeの組み合わせが真価を発揮するのは「席を離れたい」ときです。`ct`コマンドでセッションを立ち上げ、長時間のリファクタリングを任せてデタッチし、昼食から戻ったらアタッチして結果を確認する。この流れに慣れると、PCの前に張り付いてAIの出力を見守る必要がなくなります。
-
-Agent TeamsのSplit Panesモードを使えば、リードエージェント・コーダー・テスターがそれぞれ独立したペインで動作するのをリアルタイムで眺められます。`--dangerously-skip-permissions`はサンドボックスとDenyリストの併用を前提に使ってください。まずは`ct`コマンドの基本操作から試して、慣れてきたらAgent TeamsやセッションのカスタマイズにStep Upしていくのがおすすめです。

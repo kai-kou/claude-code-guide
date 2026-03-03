@@ -229,13 +229,9 @@ flowchart TD
 
 ## まとめ
 
+コンテキスト管理のポイントは3つです。ステータスラインの色を見て残量を把握する。タスク完了後は`/clear`、途中なら`/compact`。重要な情報はCLAUDE.mdと外部ファイルに逃がしておく。この習慣を身につければ、セッション途中で情報が失われて困ることはほぼなくなります。
+
 ### 参考リンク
 
 - [Claude Code公式 - コンテキスト管理](https://docs.anthropic.com/en/docs/claude-code/best-practices#manage-context)
 - [Claude Code公式 - メモリとコンテキスト](https://docs.anthropic.com/en/docs/claude-code/memory)
-
----
-
-## まとめ
-
-コンテキスト管理のポイントは3つです。ステータスラインの色を見て残量を把握する。タスク完了後は`/clear`、途中なら`/compact`。重要な情報はCLAUDE.mdと外部ファイルに逃がしておく。この習慣を身につければ、セッション途中で情報が失われて困ることはほぼなくなります。
