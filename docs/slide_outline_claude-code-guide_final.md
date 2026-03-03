@@ -8,7 +8,7 @@
 
 ## Slide 0-1: タイトルスライド
 - タイトル: Claude Code 利用ガイド & ベストプラクティス
-- サブタイトル: Claude Code初心者〜中級者向け | 2026年2月
+- サブタイトル: Claude Code初心者〜中級者向け | 2026年3月
 
 ## Slide 0-2: 目次
 - 見出し: このガイドで学べること
@@ -101,11 +101,11 @@
 ## Slide 3-2: 3層構造
 - 見出し: CLAUDE.md の3層自動マージ
 - 本文:
-  - Level 1: ~/.claude/CLAUDE.md（グローバル・全PJ共通）
-  - Level 2: ~/dev/CLAUDE.md（ワークスペース・PJ横断）
-  - Level 3: project/CLAUDE.md（プロジェクト固有）
-  - 3つが自動的にマージされて読み込まれる
-  - グローバル: Git操作ルール / WS: デグレ防止 / PJ: 技術スタック
+  - Level 1: ~/.claude/CLAUDE.md（ユーザーグローバル・全PJ共通の個人設定）
+  - Level 2: 親ディレクトリのCLAUDE.md（ワークスペース共通・複数PJ横断ルール）
+  - Level 3: ./CLAUDE.md（プロジェクト固有の技術スタック・規約）
+  - セッション開始時に3層が自動的にマージされて読み込まれる
+  - 下位の設定を上位が上書き。300行以内推奨
 
 ## Slide 3-3: 書き方のコツ
 - 見出し: CLAUDE.md のベストプラクティス
@@ -139,13 +139,15 @@
 ---
 
 ## Slide 4-1: 権限モード
-- 見出し: 4つの権限モード（defaultMode）
+- 見出し: 5つの権限モード（defaultMode）
 - 本文:
-  - ask: すべて確認。セキュリティ最優先・初心者向け
-  - auto: Allowリスト一致なら自動実行（推奨）
-  - delegate: Claudeが自律判断。上級者向け
-  - plan: 計画全体を表示し一括承認
-  - 設定: ~/.claude/settings.json の permissions.defaultMode
+  - default: ツール初回使用時に確認プロンプト表示。初心者向け標準モード
+  - acceptEdits: ファイル編集を自動承認、Bashは確認あり。普段使いの推奨モード
+  - plan: 読み取り専用。分析・計画はできるが変更不可。大規模タスクの事前計画用
+  - dontAsk: Allowリスト未登録ツールは自動拒否。リスト厳密管理の上級者向け
+  - bypassPermissions: 全確認スキップ。コンテナ・VM等の隔離環境専用（--dangerously-skip-permissions）
+  - 切替: Shift+Tab で default ↔ acceptEdits ↔ plan
+  - 設定: settings.json の permissions.defaultMode
 
 ## Slide 4-2: Allow/Deny リスト
 - 見出し: Allow/Deny リスト — パターンマッチ

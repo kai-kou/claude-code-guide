@@ -3,13 +3,13 @@ milestones:
   total: 3
   completed: 2
   in_progress: 1
-  overall_progress: 72
+  overall_progress: 95
 ---
 
 # マイルストーン管理
 
 **プロジェクト**: claude-code-guide
-**最終更新**: 2026-02-27 (SPRINT-003 開始)
+**最終更新**: 2026-03-03 (SPRINT-006 完了)
 
 ---
 
@@ -29,9 +29,9 @@ milestones:
 |--------------|------|-----------|--------|
 | M1: 情報収集・構成設計完了 | 2026-02-26 | ✅ 完了 | 100% |
 | M2: ドキュメント作成完了 | 2026-02-27 | ✅ 完了 | 100% |
-| M3: ドキュメントレビュー修正完了 | TBD | 🔄 進行中 | 30% |
+| M3: ドキュメントレビュー修正完了 | TBD | 🔄 進行中 | 84% |
 
-**全体進捗**: 67%
+**全体進捗**: 95%
 
 ---
 
@@ -79,18 +79,18 @@ milestones:
 - 全20項目を採用（ユーザー判断済み）
 
 ### 完了条件
-- [ ] Critical 4項目完了（M-01〜M-04: セキュリティ+アウトライン同期）
-- [ ] High 6項目完了（M-05〜M-10: 戦略・論理・人間味）
-- [ ] Medium 6項目完了（M-11〜M-16: 構造改善・実用性）
-- [ ] Low 4項目完了（M-17〜M-20: 画像・TIPS）
+- [x] Critical 4項目完了（M-01〜M-04: セキュリティ+アウトライン同期）— SPRINT-003/004完了
+- [x] High 6項目完了（M-05〜M-10: 戦略・論理・人間味）— SPRINT-003/004/005完了
+- [x] Medium 6項目完了（M-11〜M-16: 構造改善・実用性）— SPRINT-006完了
+- [ ] Low 4項目完了（M-17〜M-20: 画像・TIPS）— T218/T219/T220完了、T217（8SP）未着手
 - [ ] 総合スコア 8.0/10以上を達成
 
 ### 成果物
-- [ ] 修正済みドキュメント（全ファイル Ver2）
-- [ ] 新規ドキュメント: claude-code-intro.md, mcp-servers.md, skills-agents.md
-- [ ] 新規ドキュメント: security-guide.md, context-management.md, usage-limits.md
-- [ ] 新規ドキュメント: team-adoption.md, faq-advanced.md
-- [ ] 修正済みslides-outline.md（65枚対応）
+- [x] 修正済みドキュメント（全ファイル Ver2）— SPRINT-003〜006で対応
+- [x] 新規ドキュメント: claude-code-intro.md, mcp-servers.md, skills-agents.md — SPRINT-004完了
+- [x] 新規ドキュメント: security-guide.md, context-management.md, usage-limits.md — SPRINT-006完了
+- [x] 新規ドキュメント: team-adoption.md, faq-advanced.md — SPRINT-006完了
+- [x] 修正済みslides-outline.md（63枚対応）— SPRINT-006完了（63枚、65枚は未達）
 
 ---
 
