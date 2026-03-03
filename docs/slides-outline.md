@@ -206,6 +206,27 @@
 
 - シンプルで見やすい配色（白背景 + アクセントカラー）
 - コード例はダークテーマのコードブロックで表示
-- 実際のスクリーンショットを積極的に使用（assets/）
+- **図解はASCIIアート + Mermaid記法**で各ドキュメントに埋め込み済み（将来スクリーンショットに差し替え可能）
 - 各セクション冒頭にセクション番号とタイトルのディバイダースライド
 - 図表・フローチャートで概念を視覚化
+
+### 図解一覧（各ドキュメント埋め込み済み）
+
+| ドキュメント | 図解内容 | 形式 |
+|-------------|---------|------|
+| vscode-guide.md | セカンダリサイドバーレイアウト | ASCIIアート |
+| vscode-guide.md | インラインdiff Accept/Reject/Edit UI | ASCIIアート |
+| vscode-guide.md | @メンション オートコンプリート | ASCIIアート |
+| vscode-guide.md | Plan Mode 4フェーズワークフロー | Mermaid + テキスト |
+| tmux-guide.md | Agent Teams Split Panes レイアウト | ASCIIアート |
+| tmux-guide.md | デタッチ・アタッチ ワークフロー | ASCIIフロー |
+| slack-integration.md | Hook イベント駆動ライフサイクル | ASCIIフロー |
+| slack-integration.md | Slack連携 シーケンス図 | Mermaid |
+| slack-integration.md | Slack通知 表示イメージ | ASCIIモック |
+| slack-integration.md | 再帰防止フロー | Mermaid |
+| security-guide.md | 権限モード比較（ask→delegate） | ASCIIスケール |
+| security-guide.md | Allow/Deny判定フロー | Mermaid |
+| security-guide.md | 二段構え防御フロー | ASCIIフロー |
+| context-management.md | キャッシュの仕組み図解 | Mermaid |
+| context-management.md | コンテキスト使用率 色分けバー | ASCIIバー |
+| context-management.md | /clear vs /compact 判断フロー | Mermaid + テキスト |

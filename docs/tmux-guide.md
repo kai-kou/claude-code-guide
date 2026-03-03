@@ -304,6 +304,27 @@ set -g status-right '#[fg=yellow]#(cat ~/.claude/state/feedback-status 2>/dev/nu
 
 ### 3. デタッチ・アタッチのワークフロー
 
+```
+┌─────────────┐      ┌────────────────────────┐      ┌─────────────┐
+│   ct 起動   │─────▶│  Claude Code 実行中    │─────▶│  完了待ち   │
+│ (タスク指示) │      │  (tmuxセッション内)    │      │             │
+└─────────────┘      └──────────┬─────────────┘      └─────────────┘
+                                │
+                     Ctrl-b → d │ デタッチ
+                                ▼
+                     ┌────────────────────────┐
+                     │  バックグラウンド実行   │    ← PCを閉じてもOK
+                     │  (セッション継続中)     │    ← Wi-Fi切れてもOK
+                     └──────────┬─────────────┘
+                                │
+                     ct --attach│ 再アタッチ
+                                ▼
+                     ┌────────────────────────┐
+                     │  結果を確認            │
+                     │  (途中から再開)        │
+                     └────────────────────────┘
+```
+
 ```bash
 # 1. タスクを開始
 ct "大規模リファクタリングを実施"
@@ -402,6 +423,16 @@ Agent Teamsを起動してもペインが分割されない場合、まず環境
 ### セッション内でClaude Codeが起動しない
 
 `ct`でtmuxセッションは作成されるがClaude Codeが起動しない場合、`claude`コマンドにPATHが通っていないことが原因です。tmuxはログインシェルとは異なる環境で起動するため、`~/.zshrc`でnvmやnodeのPATH設定がされていても読み込まれないケースがあります。`~/.tmux.conf`に`set -g default-shell /bin/zsh`を追加し、tmuxを再起動すると解消することが多いです。
+
+---
+
+## まとめ
+
+### 参考リンク
+
+- [Claude Code公式 - CLI使用方法](https://docs.anthropic.com/en/docs/claude-code/cli-usage)
+- [Agent Teams公式ドキュメント](https://docs.anthropic.com/en/docs/claude-code/agent-teams)
+- [tmux公式Wiki](https://github.com/tmux/tmux/wiki)
 
 ---
 

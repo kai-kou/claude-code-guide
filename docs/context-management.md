@@ -40,6 +40,23 @@ Claude Codeのコンテキストウィンドウは、Claudeが「覚えている
 | **Cache Write** | Claudeがキャッシュに保存した情報 | あり（初回のみ） |
 | **Cache Read** | キャッシュから読み込んだ情報 | **90%割引** |
 
+```mermaid
+graph LR
+    subgraph コンテキストウィンドウ
+        A[ユーザー入力<br>Input Tokens] --> CW[コンテキスト<br>ウィンドウ]
+        B[Claudeの応答<br>Output Tokens] --> CW
+        C[ファイル読取<br>ツール出力] --> CW
+    end
+
+    subgraph キャッシュ
+        CW -->|初回| D[Cache Write<br>通常コスト]
+        D -->|5分以内に再利用| E[Cache Read<br>90%割引]
+    end
+
+    style E fill:#d4edda,stroke:#28a745
+    style D fill:#fff3cd,stroke:#ffc107
+```
+
 **キャッシュのメリット**:
 - CLAUDE.md、よく読むファイル、長いツール出力をキャッシュすることで、次回以降のトークン消費を大幅削減
 - キャッシュは5分間有効（5分以内に再度アクセスすると、Cache Readとして処理される）
@@ -73,6 +90,20 @@ Line 4: 🧠 CC:[memory] | App:[memory] | VSCode:[memory]
 - `残35%` — コンテキストウィンドウの残量
 
 **色による警告**:
+
+```
+  コンテキスト使用率とアクションの目安
+
+  0%                    59%  60%              79%  80%             100%
+  ├──────────────────────┤────────────────────┤─────────────────────┤
+  │ ████████████████████ │ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ │ ░░░░░░░░░░░░░░░░░░ │
+  │     緑: OK           │   黄: WATCH        │   赤: SWITCH        │
+  │                      │                    │                     │
+  │  そのまま作業続行    │ あと1〜2タスクで   │ /compact で圧縮     │
+  │                      │ 切り上げを意識     │ または /clear        │
+  └──────────────────────┴────────────────────┴─────────────────────┘
+```
+
 - 緑: 0-59% — OK
 - 黄: 60-79% — WATCH（注意）
 - 赤: 80-100% — SWITCH（新しいセッションを推奨）
@@ -119,6 +150,28 @@ Line 4: 🧠 CC:[memory] | App:[memory] | VSCode:[memory]
 ## 4. /clear vs /compact の使い分けフローチャート
 
 コンテキストが膨らんできたとき、`/clear`と`/compact`のどちらを使うべきか迷うことがあります。以下のフローチャートで判断してください。
+
+```mermaid
+flowchart TD
+    A[コンテキストが膨らんできた] --> B{タスクが完了した?}
+    B -->|YES| C["/clear でリセット"]
+    C --> C1["次のタスクはゼロから始める方が<br>品質が安定する"]
+    B -->|NO| D{前の議論を引き継ぐ必要がある?}
+    D -->|YES| E["/compact で圧縮"]
+    E --> E1["保持したい情報を具体的に指示する<br>例: /compact Keep API changes"]
+    D -->|NO| F["/clear でリセット"]
+    F --> F1["CLAUDE.mdの情報は<br>自動的に再読込される"]
+    A --> G{自動コンパクションが提案された?}
+    G -->|YES| H["提案に従ってOK"]
+    H --> H1["重要な情報の保持を追加指示すること"]
+
+    style C fill:#d4edda,stroke:#28a745
+    style E fill:#fff3cd,stroke:#ffc107
+    style F fill:#d4edda,stroke:#28a745
+    style H fill:#cce5ff,stroke:#0d6efd
+```
+
+**テキスト版（Mermaid非対応環境向け）**:
 
 ```
 タスクが完了した？
@@ -171,6 +224,15 @@ Line 4: 🧠 CC:[memory] | App:[memory] | VSCode:[memory]
 ### コンテキストが突然リセットされた
 
 作業中にClaude Codeが以前の指示を忘れたように振る舞う場合、自動コンパクションが発生した可能性があります。コンテキストウィンドウが上限に近づくと自動的に圧縮が行われ、一部の情報が要約されます。重要な情報を保持するには、compact-reinject.shフックを設定するか、CLAUDE.mdに「コンパクション時の保持ルール」を記述しておいてください。タスク管理情報は外部ファイル（scrum/tasks.mdなど）に書き出しておくと、コンパクション後も参照できます。
+
+---
+
+## まとめ
+
+### 参考リンク
+
+- [Claude Code公式 - コンテキスト管理](https://docs.anthropic.com/en/docs/claude-code/best-practices#manage-context)
+- [Claude Code公式 - メモリとコンテキスト](https://docs.anthropic.com/en/docs/claude-code/memory)
 
 ---
 
