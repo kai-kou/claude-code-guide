@@ -1,13 +1,8 @@
 ---
 velocity_summary:
-  last_updated: "2026-03-02"
-  sprint_count: 5
+  last_updated: "2026-03-03"
+  sprint_count: 6
   sprints:
-    - id: "SPRINT-003"
-      date: "2026-02-27"
-      planned_sp: 12
-      completed_sp: 12
-      completion_rate: 100
     - id: "SPRINT-004"
       date: "2026-02-27"
       planned_sp: 16
@@ -18,16 +13,17 @@ velocity_summary:
       planned_sp: 14
       completed_sp: 14
       completion_rate: 100
+    - id: "SPRINT-006"
+      date: "2026-03-03"
+      planned_sp: 19
+      completed_sp: 19
+      completion_rate: 100
   aggregated:
-    avg_planned_sp: 14.0
-    avg_completed_sp: 14.0
+    avg_planned_sp: 16.3
+    avg_completed_sp: 16.3
     avg_completion_rate: 100
-    velocity_trend: "stable"
+    velocity_trend: "increasing"
   po_efficiency:
-    - sprint: "SPRINT-003"
-      po_wait_minutes: 5
-      autonomous_rate: 100
-      session_utilization: 85
     - sprint: "SPRINT-004"
       po_wait_minutes: 5
       autonomous_rate: 100
@@ -36,6 +32,10 @@ velocity_summary:
       po_wait_minutes: 5
       autonomous_rate: 100
       session_utilization: 95
+    - sprint: "SPRINT-006"
+      po_wait_minutes: 5
+      autonomous_rate: 100
+      session_utilization: 52
   time_efficiency:
     - sprint: "SPRINT-004"
       session_minutes: 14
@@ -45,10 +45,14 @@ velocity_summary:
       session_minutes: 209
       execution_minutes: 205
       minutes_per_sp: 14.6
+    - sprint: "SPRINT-006"
+      session_minutes: 62
+      execution_minutes: 32
+      minutes_per_sp: 1.7
   time_aggregated:
-    avg_session_minutes: 112
-    avg_execution_minutes: 109
-    avg_minutes_per_sp: 7.7
+    avg_session_minutes: 95
+    avg_execution_minutes: 83
+    avg_minutes_per_sp: 5.7
     efficiency_trend: "variable"
 ---
 
@@ -62,26 +66,26 @@ velocity_summary:
 
 | # | スプリント | 日付 | 計画SP | 完了SP | 消化率 |
 |---|-----------|------|--------|--------|--------|
-| 1 | SPRINT-003 | 2026-02-27 | 12 | 12 | 100% |
-| 2 | SPRINT-004 | 2026-02-27 | 16 | 16 | 100% |
-| 3 | SPRINT-005 | 2026-03-02 | 14 | 14 | 100% |
+| 1 | SPRINT-004 | 2026-02-27 | 16 | 16 | 100% |
+| 2 | SPRINT-005 | 2026-03-02 | 14 | 14 | 100% |
+| 3 | SPRINT-006 | 2026-03-03 | 19 | 19 | 100% |
 
 ## 集計
 
 | 指標 | 値 |
 |------|-----|
-| 平均計画SP | 14.0 |
-| 平均完了SP | 14.0 |
+| 平均計画SP | 16.3 |
+| 平均完了SP | 16.3 |
 | 平均消化率 | 100% |
-| ベロシティトレンド | stable |
+| ベロシティトレンド | increasing |
 
 ## PO効率指標トレンド
 
 | # | スプリント | PO待ち時間(分) | 自律実行率 | セッション有効率 |
 |---|-----------|---------------|-----------|----------------|
-| 1 | SPRINT-003 | 5 | 100% | 85% |
-| 2 | SPRINT-004 | 5 | 100% | 93% |
-| 3 | SPRINT-005 | 5 | 100% | 95% |
+| 1 | SPRINT-004 | 5 | 100% | 93% |
+| 2 | SPRINT-005 | 5 | 100% | 95% |
+| 3 | SPRINT-006 | 5 | 100% | 52% |
 
 ## 時間効率トレンド
 
@@ -89,12 +93,13 @@ velocity_summary:
 |---|-----------|-------------------|-------------|-------|
 | 1 | SPRINT-004 | 14 | 13 | 0.8 |
 | 2 | SPRINT-005 | 209 | 205 | 14.6 |
+| 3 | SPRINT-006 | 62 | 32 | 1.7 |
 
 ## 時間効率集計
 
 | 指標 | 値 |
 |------|-----|
-| 平均セッション時間(分) | 112 |
-| 平均実行時間(分) | 109 |
-| 平均分/SP | 7.7 |
+| 平均セッション時間(分) | 95 |
+| 平均実行時間(分) | 83 |
+| 平均分/SP | 5.7 |
 | 効率トレンド | variable |

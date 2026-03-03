@@ -3,7 +3,7 @@ sprint:
   id: "SPRINT-006"
   project: "claude-code-guide"
   date: "2026-03-03"
-  status: "in_progress"
+  status: "completed"
   execution_mode: "sequential"
   autonomous: false
   model_tier: "M"
@@ -13,10 +13,10 @@ timing:
   planning_end: "00:53"
   execution_start: "00:53"
   execution_end: "01:25"
-  review_start: ""
-  review_end: ""
-  retro_start: ""
-  retro_end: ""
+  review_start: "14:44"
+  review_end: "14:46"
+  retro_start: "14:57"
+  retro_end: "14:59"
 backlog:
   total_tasks: 7
   total_sp: 19
@@ -37,7 +37,7 @@ backlog_status:
 **スプリント**: SPRINT-006
 **プロジェクト**: claude-code-guide
 **日付**: 2026-03-03
-**ステータス**: in_progress
+**ステータス**: completed
 
 ---
 

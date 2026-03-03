@@ -1,7 +1,7 @@
 ---
 try_stock:
-  total: 6
-  pending: 4
+  total: 7
+  pending: 5
   in_progress: 1
   completed: 1
   cancelled: 0
@@ -11,7 +11,7 @@ try_stock:
 
 # Try ストック管理
 
-**最終更新**: 2026-03-02 (SPRINT-005 retro反映)
+**最終更新**: 2026-03-03 (SPRINT-006 retro反映)
 **棚卸しルール**: 10スプリントごと、またはTry蓄積が20件を超えた時点で棚卸しを実施
 
 ---
@@ -20,11 +20,11 @@ try_stock:
 
 | ステータス | 件数 |
 |-----------|------|
-| Pending | 4 |
+| Pending | 5 |
 | In Progress | 1 |
 | Completed | 1 |
 | Cancelled | 0 |
-| **合計** | **6** |
+| **合計** | **7** |
 
 ---
 
@@ -38,6 +38,7 @@ try_stock:
 | TRY-004 | 2026-02-28 | SPRINT-004 | 大型タスク（8SP超）は分割して推奨SP範囲内に収める | Process | Medium | SP16超過の再発防止 |
 | TRY-005 | 2026-03-02 | SPRINT-005 | タスク完了時にSlack投稿を実施する（persona/使用） | Process | Medium | 3スプリント連続未実施 |
 | TRY-006 | 2026-03-02 | SPRINT-005 | 8SP以上のタスクではセッション冒頭にコンテキスト予算を見積もる | Process | Low | コンテキスト溢れの予防 |
+| TRY-007 | 2026-03-03 | SPRINT-006 | SP計画時にP3タスクを「バッファ枠」として明示し推奨範囲超過時のスコープカット基準を事前設定 | Process | Medium | SP推奨範囲超過の再発防止 |
 
 ### 優先度の定義
 
