@@ -39,15 +39,19 @@ claude-code-guide/
 │   ├── sprint-backlog.md   # スプリントバックログ
 │   └── velocity-summary.md # ベロシティサマリー
 ├── persona/                # ペルソナ（Slack分報投稿用）
-├── docs/                   # ドキュメント原稿
-│   ├── slides-outline.md   # スライド構成
-│   ├── vscode-guide.md     # VSCode利用ガイド
-│   ├── tmux-guide.md       # tmux活用ガイド
-│   ├── slack-integration.md # Slack連携ガイド
-│   ├── cursor-migration.md # Cursorからの移行ガイド
-│   ├── security-guide.md    # 権限とセキュリティガイド
-│   ├── context-management.md # コンテキスト管理ガイド
-│   ├── usage-limits.md      # 利用制限ガイド
-│   └── research/           # リサーチ成果物
+├── docs/
+│   └── slides/              # スライド成果物・元ドキュメント
+│       ├── claude-code-guide.pptx  # PPTX成果物
+│       ├── slide_outline.md        # スライド構成（最終版・52枚）
+│       ├── claude-code-intro.md    # Section 1: Claude Code とは
+│       ├── vscode-guide.md         # Section 2: セットアップ
+│       ├── tmux-guide.md           # Section 2: tmux活用
+│       ├── security-guide.md       # Section 4: 権限とセキュリティ
+│       ├── slack-integration.md    # Section 5: Hooks・Slack連携
+│       ├── context-management.md   # Section 6: コンテキスト管理
+│       ├── usage-limits.md         # Section 7: 利用制限
+│       ├── mcp-servers.md          # Section 8: MCP
+│       ├── skills-agents.md        # Section 9: Skills・Agents
+│       └── cursor-migration.md     # Section 10: Cursorからの移行
 └── assets/                 # 画像・素材
 ```
