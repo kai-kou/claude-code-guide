@@ -1,0 +1,12 @@
+title: Claude Code Guide
+description: Claude Code利用ガイド・ベストプラクティス
+baseurl: /claude-code-guide
+url: https://kai-kou.github.io
+
+exclude:
+  - scrum/
+  - .sprint-logs/
+  - persona/
+  - tmp/
+  - CLAUDE.md
+  - "*.pptx"
