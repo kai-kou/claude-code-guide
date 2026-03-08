@@ -1,17 +1,17 @@
 ---
 tasks:
   total: 41
-  completed: 38
+  completed: 40
   in_progress: 0
   cancelled: 1
   blocked: 0
-  overall_progress: 93
+  overall_progress: 98
 ---
 
 # タスク管理
 
 **プロジェクト**: claude-code-guide
-**最終更新**: 2026-03-06 (SPRINT-010・ブログ記事T229/T230完了)
+**最終更新**: 2026-03-08 (SPRINT-011・ブログ記事T231/T232完了)
 
 ---
 
@@ -35,14 +35,14 @@ tasks:
 
 ## 進捗サマリー
 
-**全体**: 38/41 タスク完了 (93%) ※T217キャンセル1件
+**全体**: 40/41 タスク完了 (98%) ※T217キャンセル1件
 
 ### フェーズ別進捗
 - Phase 1: 4/4 完了 (100%)
 - Phase 2: 5/5 完了 (100%)
 - Phase 3: 24/25 完了 (96%) ← M3クローズ完了（総合8.14/10）
 - Phase 4: 3/3 完了 (100%) ← スライドPPTX作成完了
-- Phase 5: 2/4 完了 (50%) ← ブログ記事化（T229,T230完了）
+- Phase 5: 4/4 完了 (100%) ← ブログ記事化（T229,T230,T231,T232完了）
 
 ### 優先度別
 - P0: 8/8 完了
@@ -160,8 +160,8 @@ tasks:
 |----|--------|--------|----|-----------|------|------|
 | T229 | [G02] コンテキスト管理記事の執筆 — CLAUDE.md設計・/compact戦略・キャッシュ最適化をZennブログ記事化 | P1 | 3 | ✅ 完了 | 2026-03-06 | PBI-002, SPRINT-010, draft-023作成 |
 | T230 | [G01] Hooks完全ガイド記事の執筆 — Slack連携・Lint自動化・Push前チェックの実装レシピをZennブログ記事化 | P1 | 5 | ✅ 完了 | 2026-03-06 | PBI-001, SPRINT-010, draft-024作成 |
-| T231 | [G03] Skills/Agents/Teams記事の執筆 — Claude Code Skills・Agents・Agent Teamsの全体像と実践ガイドをZennブログ記事化 | P1 | 5 | ⬜ 未着手 | TBD | PBI-003, ソース: skills-agents.md |
-| T232 | [G04] Cursor移行ガイド記事の執筆 — タイムリープ戦略と併用ノウハウをZennブログ記事化 | P1 | 5 | ⬜ 未着手 | TBD | PBI-004, ソース: cursor-migration.md |
+| T231 | [G03] Skills/Agents/Teams記事の執筆 — Claude Code Skills・Agents・Agent Teamsの全体像と実践ガイドをZennブログ記事化 | P1 | 5 | ✅ 完了 | 2026-03-08 | PBI-003, SPRINT-011, draft-025作成 |
+| T232 | [G04] Cursor移行ガイド記事の執筆 — タイムリープ戦略と併用ノウハウをZennブログ記事化 | P1 | 5 | ✅ 完了 | 2026-03-08 | PBI-004, SPRINT-011, draft-026作成 |
 
 ---
 
